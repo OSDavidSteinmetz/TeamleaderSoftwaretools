@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teamleader Softwaretools</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/breadcrumbs.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tickets.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bugreport.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='assets/favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+<header>
+    <div class="left-container">
+        <img src="{{ url_for('static', filename='assets/timer.png') }}" alt="Timer Icon" width="64">
+        <a href="."><h1>Teamleader Softwaretools</h1></a>
+    </div>
+    <div class="right-container">
+        <button type="button" class="error-button" onclick="toggleBubble()">
+            <img src="{{ url_for('static', filename='assets/bug.png') }}" alt="Upload Icon">
+        </button>
+        {% if username %}
+        <a class="ticket-button" href="./tickets.html">
+            <img src="{{ url_for('static', filename='assets/skills.png') }}" alt="Upload Icon">
+        </a>
+        <div class="avatar-initials" id="avatar-initials">{{ initials }}</div>
+        <button type="button" class="logout-button" onclick="logout()">
+            Abmelden
+        </button>
+        {% else %}
+        <button type="button" class="login-button" onclick="login()">
+            Anmelden
+        </button>
+        {% endif %}
+    </div>
+</header>
+<!-- Breadcrumb Navigation -->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="/" class="breadcrumb-link">
+                <img src="/static/assets/home.svg" class="breadcrumb-icon" alt="Home Icon" width="16" height="16">
+                Startseite
+            </a>
+        </li>
+        <li class="breadcrumb-item active">
+            <img src="/static/assets/chevron.svg" class="breadcrumb-spacer" alt="Home Icon" width="16" height="16">
+            Ticketsystem
+        </li>
+    </ol>
+</nav>
+{% if username %}
+<div class="content">
+    <div class="box-container">
+        <div class="box">
+            <div class="tools-container">
+                <input type="search" id="searchField" class="search-field" placeholder="Suche..."
+                       oninput="filterTable()">
+                <button id="clear-button" class="clear-button" onclick="archiveTickets()">
+                    <div class="tooltip">
+                        Geschlossene Tickets archivieren
+                    </div>
+                    <img src="{{ url_for('static', filename='assets/archive.png') }}" alt="Upload Icon">
+                </button>
+                <button id="download-button" class="clear-button" onclick="downloadTickets()">
+                    <div class="tooltip">
+                        Ticketliste herunterladen
+                    </div>
+                    <img src="{{ url_for('static', filename='assets/download.png') }}" alt="Upload Icon">
+                </button>
+            </div>
+        </div>
+        <div id="ticketsview">
+            {% for ticket in tickets %}
+            <div class="ticket" data-id="{{ ticket.id }}">
+                <div class="ticket-header">
+                    <div class="ticket-block"><span class="status-tag {{ ticket.status }}">{{ ticket.status }}</span>
+                    </div>
+                    <span class="ticket-title">{{ ticket.title }}</span>
+                    <span class="ticket-timestamp">{{ ticket.created_at }}</span>
+                </div>
+                <div class="ticket-details">
+                    <p class="ticket-text">{{ ticket.description }}</p>
+                    <div class="ticket-images">
+                        {% for image in ticket.images %}
+                        <img src="{{ url_for('static', filename='uploads/' + image) }}" alt="Ticket image">
+                        {% endfor %}
+                    </div>
+                    <span class="ticketuser">Angelegt von: {{ ticket.user }}</span>
+                    {% if username == 'David Steinmetz' %}
+                    <form class="status-form">
+                        <select name="status">
+                            <option value="{{ ticket.status }}" hidden selected>{{ ticket.status }}</option>
+                            <option value="Offen">Offen</option>
+                            <option value="In Arbeit">In Arbeit</option>
+                            <option value="Geschlossen">Geschlossen</option>
+                            <option value="Archiviert">Archiviert</option>
+                        </select>
+                        <button type="submit" class="submit-button">Status aktualisieren</button>
+                        {% if ticket.status == 'Geschlossen' %}
+                        <button type="button" class="close-button" onclick="deleteTicket({{ ticket.id }})">Ticket
+                            löschen
+                        </button>
+                        {% endif %}
+                    </form>
+                    {% else %}
+                    <form class="status-form">
+                        <select name="status" disabled>
+                            <option value="{{ ticket.status }}" hidden selected>{{ ticket.status }}</option>
+                            <option value="Offen">Offen</option>
+                            <option value="In Arbeit">In Arbeit</option>
+                            <option value="Geschlossen">Geschlossen</option>
+                            <option value="Archiviert">Archiviert</option>
+                        </select>
+                        <button type="submit" class="submit-button" disabled>Status aktualisieren</button>
+                        {% if ticket.status == 'Geschlossen' %}
+                        <button type="button" class="close-button" onclick="deleteTicket({{ ticket.id }})" disabled>
+                            Ticket löschen
+                        </button>
+                        {% endif %}
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<div id="imageModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modalImage">
+    <a class="prev">&#10094;</a>
+    <a class="next">&#10095;</a>
+</div>
+<div id="errorBubble" class="bubble">
+    <h2>Fehler melden</h2>
+    <form id="errorForm">
+        <input type="text" id="errorTitle" placeholder="Titel" required>
+        <textarea id="errorText" placeholder="Fehlerbeschreibung" required></textarea>
+        <div id="dropZone" class="drop-zone">
+            <p>Screenshots hier ablegen oder klicken zum Auswählen</p>
+            <input type="file" id="errorImages" accept="image/*" multiple style="display: none;">
+        </div>
+        <div id="imagePreview" class="image-preview"></div>
+        <div class="button-container">
+            <button type="submit">OK</button>
+            <button type="button" class="cancel-button" onclick="hideBubble()">Abbrechen</button>
+        </div>
+    </form>
+</div>
+{% endif %}
+<div id="message-container"></div>
+<script src="{{ url_for('static', filename='js/login.js') }}"></script>
+<script src="{{ url_for('static', filename='js/tickets.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bugreport.js') }}"></script>
+</body>
+</html>

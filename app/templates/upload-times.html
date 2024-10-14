@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teamleader Softwaretools</title>
+    <link rel="icon" href="{{ url_for('static', filename='assets/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/upload.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/breadcrumbs.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bugreport.css') }}">
+</head>
+<body onload="checkTableVisibility()">
+<header>
+    <div class="left-container">
+        <img src="{{ url_for('static', filename='assets/timer.png') }}" alt="Timer Icon" width="64">
+        <a href="."><h1>Teamleader Softwaretools</h1></a>
+    </div>
+    <div class="right-container">
+                <button type="button" class="error-button" onclick="toggleBubble()">
+            <img src="{{ url_for('static', filename='assets/bug.png') }}" alt="Upload Icon">
+        </button>
+        {% if username %}
+        <a class="ticket-button" href="./tickets.html">
+            <img src="{{ url_for('static', filename='assets/skills.png') }}" alt="Upload Icon">
+        </a>
+        <div class="avatar-initials" id="avatar-initials">{{ initials }}</div>
+        <button type="button" class="logout-button" onclick="logout()">
+            Abmelden
+        </button>
+        {% else %}
+        <button type="button" class="login-button" onclick="login()">
+            Anmelden
+        </button>
+        {% endif %}
+    </div>
+</header>
+<!-- Breadcrumb Navigation -->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <!-- Beispiel für Home Icon -->
+        <li class="breadcrumb-item">
+            <a href="/" class="breadcrumb-link">
+                <img src="/static/assets/home.svg" class="breadcrumb-icon" alt="Home Icon" width="16" height="16">
+                Startseite
+            </a>
+        </li>
+        <li class="breadcrumb-item active">
+            <img src="/static/assets/chevron.svg" class="breadcrumb-spacer" alt="Home Icon" width="16" height="16">
+            Zeiten hochladen
+        </li>
+    </ol>
+</nav>
+<div class="content">
+    <div class="box-container">
+        <h3>CSV Datei hochladen</h3>
+        <div class="box">
+            <div class="file-upload-container">
+                <form id="uploadForm" action="/upload-times.html" method="post" enctype="multipart/form-data">
+                    <input type="file" id="csvFile" name="csvFile" accept=".csv" onchange="submitForm()">
+                </form>
+                <button id="downloadButton" class="upload-button" onclick="downloadTemplate()">
+                    <div class="tooltip">
+                        Template herunterladen
+                    </div>
+                    <img src="{{ url_for('static', filename='assets/download.png') }}" alt="Download Icon">
+                </button>
+                <button id="uploadButton" class="upload-button" onclick="openModal()" disabled>
+                    <div class="tooltip">
+                        Zeiten in Teamleader hochladen
+                    </div>
+                    <img src="{{ url_for('static', filename='assets/upload-file.png') }}" alt="Upload Icon">
+                </button>
+                <button type="button" class="clear-button" onclick="clearData()" disabled>
+                    <div class="tooltip">
+                        Ansicht zurücksetzen
+                    </div>
+                    <img src="{{ url_for('static', filename='assets/trashcan.png') }}" alt="Abfalleimer">
+                </button>
+            </div>
+        </div>
+        <div id="csvContent">
+            {% if error_message %}
+            <p class="error-message">{{ error_message }}</p>
+            <img src="/static/assets/upload.gif" id="uploaderror" alt="Uploaderror Icon" height="300px">
+            {% endif %}
+            {% if success_message %}
+            <p class="success-message">{{ success_message }}</p>
+            {% endif %}
+            {% if sorted_data %}
+            {% for weekday_and_hours, data_rows in sorted_data.items() %}
+            {% set total_hours = data_rows[0]['Gesamtstunden'] %}
+            <h4>{{ weekday_and_hours | safe }} <span class="total-hours">[{{ total_hours }} Stunden]</span></h4>
+            <table>
+                <thead>
+                <tr>
+                    <th>Von</th>
+                    <th>Bis</th>
+                    <th>Typ</th>
+                    <th>Kunde</th>
+                    <th>Phase</th>
+                    <th>Projekt</th>
+                    <th>Abrechenbar</th>
+                    <th>Beschreibung</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for row in data_rows %}
+                {% for zeit in row['Zeiten'] %}
+                <tr>
+                    <td id="starttime">{{ zeit['Von'] }}</td>
+                    <td id="endtime">{{ zeit['Bis'] }}</td>
+                    <td id="type">{{ zeit['Typ'] }}</td>
+                    <td>{{ zeit['Kunde'] }}</td>
+                    <td>{{ zeit['Phase'] }}</td>
+                    <td>{{ zeit['Projekt'] }}</td>
+                    <td>{{ zeit['Abrechenbar'] }}</td>
+                    <td id="description">{{ zeit['Beschreibung'] }}</td>
+                </tr>
+                {% endfor %}
+                {% endfor %}
+                </tbody>
+            </table>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Zeiten in Teamleader übertragen?</h2>
+            <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+        <div id="loader" class="{% if not success_message %}loaded{% else %}loaded{% endif %}">
+            <span class="loader"></span>
+        </div>
+        <div class="modal-buttons">
+            <button class="confirm-button" id="confirm-btn" onclick="uploadToTeamleader()">Bestätigen</button>
+            <button class="cancel-button" id="cancel-btn" onclick="closeModal()">Abbrechen</button>
+        </div>
+    </div>
+</div>
+<div id="errorBubble" class="bubble">
+    <h2>Fehler melden</h2>
+    <form id="errorForm">
+        <input type="text" id="errorTitle" placeholder="Titel" required>
+        <textarea id="errorText" placeholder="Fehlerbeschreibung" required></textarea>
+        <div id="dropZone" class="drop-zone">
+            <p>Screenshots hier ablegen oder klicken zum Auswählen</p>
+            <input type="file" id="errorImages" accept="image/*" multiple style="display: none;">
+        </div>
+        <div id="imagePreview" class="image-preview"></div>
+        <div class="button-container">
+            <button type="submit">OK</button>
+            <button type="button" class="cancel-button" onclick="hideBubble()">Abbrechen</button>
+        </div>
+    </form>
+</div>
+<div id="message-container"></div>
+<script src="{{ url_for('static', filename='js/upload.js') }}"></script>
+<script src="{{ url_for('static', filename='js/login.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bugreport.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teamleader Softwaretools</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/error.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/breadcrumbs.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bugreport.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='assets/favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+<header>
+    <div class="left-container">
+        <img src="{{ url_for('static', filename='assets/timer.png') }}" alt="Timer Icon" width="64">
+        <a href="."><h1>Teamleader Softwaretools</h1></a>
+    </div>
+    <div class="right-container">
+        <button type="button" class="error-button" onclick="toggleBubble()">
+            <img src="{{ url_for('static', filename='assets/bug.png') }}" alt="Upload Icon">
+        </button>
+        {% if username %}
+        <a class="ticket-button" href="./tickets.html">
+            <img src="{{ url_for('static', filename='assets/skills.png') }}" alt="Upload Icon">
+        </a>
+        <div class="avatar-initials" id="avatar-initials">{{ initials }}</div>
+        <button type="button" class="logout-button" onclick="logout()">
+            Abmelden
+        </button>
+        {% else %}
+        <button type="button" class="login-button" onclick="login()">
+            Anmelden
+        </button>
+        {% endif %}
+    </div>
+</header>
+<!-- Breadcrumb Navigation -->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <!-- Beispiel für Home Icon -->
+        <li class="breadcrumb-item">
+            <a href="/" class="breadcrumb-link">
+                <img src="/static/assets/home.svg" class="breadcrumb-icon" alt="Home Icon" width="16" height="16">
+                Startseite
+            </a>
+        </li>
+        <li class="breadcrumb-item active">
+            <img src="/static/assets/chevron.svg" class="breadcrumb-spacer" alt="Home Icon" width="16" height="16">
+            Errorseite
+        </li>
+    </ol>
+</nav>
+<div class="content">
+    <div class="box-container">
+        {% if error_message %}
+         <button type="button" class="error-message">
+            {{ error_message }}
+        </button>
+        {% else %}
+        <img src="{{ url_for('static', filename='assets/error.gif') }}" alt="Error Image">
+        <button type="button" class="error-message" disabled>
+            Nothing to find here!
+        </button>
+        {% endif %}
+
+    </div>
+</div>
+<div id="errorBubble" class="bubble">
+    <h2>Fehler melden</h2>
+    <form id="errorForm">
+        <input type="text" id="errorTitle" placeholder="Titel" required>
+        <textarea id="errorText" placeholder="Fehlerbeschreibung" required></textarea>
+        <div id="dropZone" class="drop-zone">
+            <p>Screenshots hier ablegen oder klicken zum Auswählen</p>
+            <input type="file" id="errorImages" accept="image/*" multiple style="display: none;">
+        </div>
+        <div id="imagePreview" class="image-preview"></div>
+        <div class="button-container">
+            <button type="submit">OK</button>
+            <button type="button" class="cancel-button" onclick="hideBubble()">Abbrechen</button>
+        </div>
+    </form>
+</div>
+<div id="message-container"></div>
+<script src="{{ url_for('static', filename='js/login.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bugreport.js') }}"></script>
+</body>
+</html>

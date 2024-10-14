@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teamleader Softwaretools</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/manage.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/breadcrumbs.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bugreport.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='assets/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
+</head>
+
+<body>
+    <header>
+        <div class="left-container">
+            <img src="{{ url_for('static', filename='assets/timer.png') }}" alt="Timer Icon" width="64">
+            <a href=".">
+                <h1>Teamleader Softwaretools</h1>
+            </a>
+        </div>
+        <div class="right-container">
+            <button type="button" class="error-button" onclick="toggleBubble()">
+                <img src="{{ url_for('static', filename='assets/bug.png') }}" alt="Upload Icon">
+            </button>
+            {% if username %}
+            <a class="ticket-button" href="./tickets.html">
+                <img src="{{ url_for('static', filename='assets/skills.png') }}" alt="Upload Icon">
+            </a>
+            <div class="avatar-initials" id="avatar-initials">{{ initials }}</div>
+            <button type="button" class="logout-button" onclick="logout()">
+                Abmelden
+            </button>
+            {% else %}
+            <button type="button" class="login-button" onclick="login()">
+                Anmelden
+            </button>
+            {% endif %}
+        </div>
+    </header>
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <!-- Beispiel für Home Icon -->
+            <li class="breadcrumb-item">
+                <a href="/" class="breadcrumb-link">
+                    <img src="/static/assets/home.svg" class="breadcrumb-icon" alt="Home Icon" width="16" height="16">
+                    Startseite
+                </a>
+            </li>
+            <li class="breadcrumb-item active">
+                <img src="/static/assets/chevron.svg" class="breadcrumb-spacer" alt="Home Icon" width="16" height="16">
+                Zeitbuchung einsehen
+            </li>
+        </ol>
+    </nav>
+    <div class="content">
+        <div id="box-container" class="box-container">
+            <div class="box">
+                <div class="teamleader-users-container">
+                    <select id="teamSelect" class="teams" onchange="toggleConfirmButton()">
+                        {% if team_id == "" %}
+                        <option disabled selected hidden>Team auswählen</option>
+                        {% endif %}
+                        {% if username == "Anja Rausch" or username == "Laura Boreatti" or username == "Jörg Knaust" or
+                        username == "David Steinmetz"%}
+                        <optgroup label="Mitarbeiter">
+                            <option value="option13" id="-1">Alle Mitarbeiter</option>
+                            <option value="option14" id="-2">Alle Studenten</option>
+                        </optgroup>
+                        {% endif %}
+                        <optgroup label="GF">
+                            <option value="option1" id="a935254e-b5ce-0a6c-8558-916bd4f2bfba">René Ott</option>
+                            <option value="option2" id="e0eda744-94d3-0803-9d5f-de2700b2bfb8">Daniel Rösch</option>
+                        </optgroup>
+                        <optgroup label="HR">
+                            <option value="option3" id="a0c7fd5a-2276-0f1c-a651-3b7780633631">Anja Rausch</option>
+                        </optgroup>
+                        <optgroup label="Development">
+                            <option value="option4" id="f49c6b93-b930-044d-be5d-2e9a7a22bfad">Fabian Hemberger</option>
+                            <option value="option5" id="0ed1261b-cde1-07af-ba56-315561d3082d">Fabian Margraf</option>
+                            <option value="option6" id="635876ac-a7f0-0e02-ad5d-0190f3f32f2e">Jörg Knaust</option>
+                        </optgroup>
+                        <optgroup label="Consulting">
+                            <option value="option7" id="d1701b1c-0423-0f0a-8c5d-ff1c5a72bfaa">Fabian Ott</option>
+                            <option value="option8" id="6ded28b1-8987-0e20-b655-668170f2bfb5">Jannis Schuhmann</option>
+                            <option value="option9" id="7f88fa5f-e174-061f-9e54-8b4586234146">Reinhold Gieß</option>
+                        </optgroup>
+                        <optgroup label="AI">
+                            <option value="option10" id="473c86b8-3929-027c-9853-5a26f84342f5">Tilmann Richl</option>
+                        </optgroup>
+                        <optgroup label="Vertrieb">
+                            <option value="option11" id="ebd649c2-e999-0935-855e-c6aec7e35c49">Benjamin König</option>
+                        </optgroup>
+                        <optgroup label="Partner Management">
+                            <option value="option12" id="523bb6f1-c8a3-0445-b85b-fcd63212d64a">Wolfgang Stifter</option>
+                        </optgroup>
+                        {% if team_id != "" %}
+                        <option selected hidden value="{{ selectedOption }}" id="{{ team_id }}">{{ team_name }}</option>
+                        {% endif %}
+                    </select>
+                    <button type="button" class="backward-button" onclick="setDateBackward()">
+                        <img src="{{ url_for('static', filename='assets/chevron.svg') }}" alt="" width="32">
+                    </button>
+                    <input type="month" id="month" name="month" class="date-input"
+                        value="{% if selectedMonth %}{{ selectedMonth }}{% endif %}">
+                    <button type="button" class="forward-button" onclick="setDateForward()">
+                        <img src="{{ url_for('static', filename='assets/chevron.svg') }}" alt="" width="32">
+                    </button>
+                    <button type="button" class="confirm-button" id="confirmbutton" onclick="sendSelectedIdToPython()"
+                        {% if not team_id %}disabled{% endif %}>
+                        Bestätigen
+                    </button>
+                    {% if members_info%}
+                    <button class="download-button" onclick="downloadCSV()">
+                        <div class="tooltip">
+                            Zeitübersicht herunterladen
+                        </div>
+                        <img src="{{ url_for('static', filename='assets/download.png') }}" alt="Upload Icon">
+                    </button>
+                    {% else %}
+                    <button class="download-button" disabled>
+                        <img src="{{ url_for('static', filename='assets/download.png') }}" alt="Upload Icon">
+                    </button>
+                    {% endif %}
+                </div>
+                <span class="short_info" id="short_info" style="display: none;">🛈️ Die Studentenübersicht geht immer
+                    vom 16ten des Vormonats bis zum 15ten des ausgewählten Monats!</span>
+
+            </div>
+            <div id="box-content">
+                {% if error_message %}
+                <p class="error-message">{{ error_message }}</p>
+                {% endif %}
+                <table id="membersTable" class="{% if members_info %}visible{% else %}hidden{% endif %}">
+                    <thead>
+                        <tr>
+                            <th>Vorname</th>
+                            <th>Nachname</th>
+                            <th>Erfasste Zeit</th>
+                            <th>Abrechenbar</th>
+                            <th>Nicht Abrechenbar</th>
+                            <th>Arbeitstage</th>
+                            <th>Fakuraquote</th>
+                            <th>Überstunden</th>
+                        </tr>
+                    </thead>
+                    <tbody id="membersTableBody">
+                        {% for member in members_info %}
+                        <tr>
+                            <td>{{ member.first_name }}</td>
+                            <td>{{ member.last_name }}</td>
+                            <td class="times">{{ member.total_duration }}</td>
+                            <td class="times">{{ member.invoiceable_duration }}</td>
+                            <td class="times">{{ member.non_invoiceable_duration }}</td>
+                            <td class="times">{{ member.total_days }}</td>
+                            <td class="times">{{ member.invoiceable_percentage }}</td>
+                            <td class="times">{{ member.overtime_hours }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div id="loader" class="{% if members_info %}loaded{% else %}loaded{% endif %}">
+                <audio id="audiofile" preload="auto" hidden>
+                    <source src="/static/assets/loading.mp3" />
+                </audio>
+                <span class="loader"></span>
+            </div>
+        </div>
+    </div>
+    <div id="errorBubble" class="bubble">
+        <h2>Fehler melden</h2>
+        <form id="errorForm">
+            <input type="text" id="errorTitle" placeholder="Titel" required>
+            <textarea id="errorText" placeholder="Fehlerbeschreibung" required></textarea>
+            <div id="dropZone" class="drop-zone">
+                <p>Screenshots hier ablegen oder klicken zum Auswählen</p>
+                <input type="file" id="errorImages" accept="image/*" multiple style="display: none;">
+            </div>
+            <div id="imagePreview" class="image-preview"></div>
+            <div class="button-container">
+                <button type="submit">OK</button>
+                <button type="button" class="cancel-button" onclick="hideBubble()">Abbrechen</button>
+            </div>
+        </form>
+    </div>
+    <div id="message-container"></div>
+    <!-- Separate JavaScript file -->
+    <script src="{{ url_for('static', filename='js/manage.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bugreport.js') }}"></script>
+</body>
+
+</html>

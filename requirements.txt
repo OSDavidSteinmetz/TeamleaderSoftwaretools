@@ -1,0 +1,4 @@
+Flask==3.0.*
+requests==2.32.*
+load_dotenv==0.1.0
+holidays==0.31

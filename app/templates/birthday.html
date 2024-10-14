@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teamleader Softwaretools</title>
+    <link rel="icon" href="{{ url_for('static', filename='assets/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/birthday.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/breadcrumbs.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bugreport.css') }}">
+</head>
+<body>
+<header>
+    <div class="left-container">
+        <img src="{{ url_for('static', filename='assets/timer.png') }}" alt="Timer Icon" width="64">
+        <a href="."><h1>Teamleader Softwaretools</h1></a>
+    </div>
+    <div class="right-container">
+                        <button type="button" class="error-button" onclick="toggleBubble()">
+            <img src="{{ url_for('static', filename='assets/bug.png') }}" alt="Upload Icon">
+        </button>
+        {% if username %}
+        <a class="ticket-button" href="./tickets.html">
+            <img src="{{ url_for('static', filename='assets/skills.png') }}" alt="Upload Icon">
+        </a>
+        <div class="avatar-initials" id="avatar-initials">{{ initials }}</div>
+        <button type="button" class="logout-button" onclick="logout()">
+            Abmelden
+        </button>
+        {% else %}
+        <button type="button" class="login-button" onclick="login()">
+            Anmelden
+        </button>
+        {% endif %}
+    </div>
+</header>
+<!-- Breadcrumb Navigation -->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <!-- Beispiel für Home Icon -->
+        <li class="breadcrumb-item">
+            <a href="/" class="breadcrumb-link">
+                <img src="/static/assets/home.svg" class="breadcrumb-icon" alt="Home Icon" width="16" height="16">
+                Startseite
+            </a>
+        </li>
+        <li class="breadcrumb-item active">
+            <img src="/static/assets/chevron.svg" class="breadcrumb-spacer" alt="Home Icon" width="16" height="16">
+            Geburtstage
+        </li>
+    </ol>
+</nav>
+<div class="content">
+    <div class="box-container">
+        <div class="calendar">
+            <div class="card" id="past">
+                <h4><img src="{{ url_for('static', filename='assets/left-arrow.png') }}" alt="Birthday Icon"
+                         width="96"></h4>
+                <span class="date">Letzte Geburtstage</span>
+                {% if members['past_birthdays'] %}
+                {% for member in members["past_birthdays"] %}
+                <div class="birthdayblock">
+                    <span class="name">{{ member.name }}</span><span class="age">{{ member.status }}</span>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+            <div class="card">
+                {% set images = ['birthdaydog.png', 'confetti.png', 'ballons.png'] %}
+                {% set selected_image = images|random %}
+                <h4><img src="{{ url_for('static', filename='assets/' ~ selected_image) }}" alt="Birthday Icon"
+                         width="96"></h4>
+                <span class="date">{{ date }}</span>
+                {% if members['today_birthdays'] %}
+                {% for member in members["today_birthdays"] %}
+                <div class="birthdayblock">
+                    <span class="name">{{ member.name }}</span><span class="age">{{ member.age }}</span>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="birthdayblock">
+                    <span class="empty">Heute sind keine Geburtstage</span>
+                </div>
+                {% endif %}
+            </div>
+            <div class="card" id="future">
+                <h4><img src="{{ url_for('static', filename='assets/right-arrow.png') }}" alt="Birthday Icon"
+                         width="96"></h4>
+                <span class="date">Nächste Geburtstage</span>
+                {% if members["future_birthdays"] %}
+                {% for member in members['future_birthdays'] %}
+                <div class="birthdayblock">
+                    <span class="name">{{ member.name }}</span><span class="age">{{ member.status }}</span>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<div id="errorBubble" class="bubble">
+    <h2>Fehler melden</h2>
+    <form id="errorForm">
+        <input type="text" id="errorTitle" placeholder="Titel" required>
+        <textarea id="errorText" placeholder="Fehlerbeschreibung" required></textarea>
+        <div id="dropZone" class="drop-zone">
+            <p>Screenshots hier ablegen oder klicken zum Auswählen</p>
+            <input type="file" id="errorImages" accept="image/*" multiple style="display: none;">
+        </div>
+        <div id="imagePreview" class="image-preview"></div>
+        <div class="button-container">
+            <button type="submit">OK</button>
+            <button type="button" class="cancel-button" onclick="hideBubble()">Abbrechen</button>
+        </div>
+    </form>
+</div>
+<div id="message-container"></div>
+<script src="{{ url_for('static', filename='js/birthday.js') }}"></script>
+<script src="{{ url_for('static', filename='js/login.js') }}"></script>
+</body>
+</html>

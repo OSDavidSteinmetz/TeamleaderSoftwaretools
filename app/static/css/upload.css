@@ -1,0 +1,481 @@
+/* Allgemeine Styles */
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header styles */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+header img {
+    margin-right: 10px;
+}
+
+header h1 {
+    font-size: 20px;
+    margin: 0;
+    color: #333;
+}
+
+header .left-container {
+    display: flex;
+    align-items: center;
+}
+
+header .right-container {
+    display: flex;
+    align-items: center;
+}
+
+.left-container {
+    display: flex;
+    align-items: center;
+}
+
+.right-container {
+    display: flex;
+    align-items: center;
+}
+
+.username {
+    margin-right: 20px;
+    font-size: 1.2em;
+    color: #333;
+}
+
+.logout-button {
+    background-color: #de8787;
+    color: white;
+    border: none;
+    padding: 10px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    display: flex;
+    margin-right: 1rem;
+}
+
+.logout-button:hover {
+    background-color: #d47c75;
+}
+
+.login-button {
+    background-color: #87dfb9;
+    color: white;
+    border: none;
+    padding: 10px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    display: flex;
+    margin-right: 1rem;
+}
+
+.login-button:hover {
+    background-color: #7dd4a7;
+}
+
+/* Content Styles */
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    padding-bottom: 2rem; /* Abstand nach unten */
+    flex-grow: 1;
+    overflow: auto;
+}
+
+.box-container {
+    width: 100%;
+    max-width: 1200px;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.box {
+    background-color: #e0e0e0;
+    padding: 20px;
+    text-align: center;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333;
+}
+
+.box a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+}
+
+.box-container h3 {
+    text-align: center;
+}
+
+.box img {
+    margin-right: 10px;
+    width: 32px;
+    height: 32px;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px; /* Abstand über der Tabelle */
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+/* File Upload Styles */
+.file-upload-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Adjust spacing between file input and button */
+}
+
+input[type="file"] {
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #fff;
+    color: #333;
+}
+
+input[type="file"]::file-selector-button {
+    background-color: #8794df;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: #7d89cd;
+}
+
+/* Button Styles */
+.upload-button {
+    background-color: #8794df;
+    color: white;
+    border: none;
+    padding: 10px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    display: flex; /* Initial versteckt */
+    position: relative; /* Needed for positioning the tooltip */
+}
+
+.upload-button:hover {
+    background-color: #7d89cd;
+}
+
+.upload-button img {
+    filter: invert(100%);
+    width: 25px;
+    height: 25px;
+    margin: auto;
+}
+
+.clear-button {
+    background-color: #8794df;
+    color: white;
+    border: none;
+    padding: 10px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    display: flex; /* Initial versteckt */
+    position:relative;
+}
+
+.clear-button img {
+    filter: invert(100%);
+    width: 25px;
+    height: 25px;
+    margin: auto;
+}
+
+.clear-button:hover {
+    background-color: #7d89cd;
+}
+
+/* New CSS class for error messages */
+.error-message {
+    background-color: #de8787;
+    color: white;
+    text-align: center;
+    margin: 20px auto;
+    width: fit-content;
+    padding: 5px 8px;
+    border-radius: 1.6rem;
+}
+
+/* New CSS class for success messages */
+.success-message {
+    background-color: #87dfb9;
+    color: white;
+    text-align: center;
+    margin: 20px auto;
+    width: fit-content;
+    padding: 5px 8px;
+    border-radius: 1.6rem;
+}
+
+/* custom.css */
+.total-hours {
+    color: #4abfc1;
+    font-weight: bold;
+}
+
+/* Modal Styling */
+.modal {
+    display: none; /* Versteckt standardmäßig das Modal */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); /* Hintergrund dunkelgrau mit Transparenz */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 60%; /* Anpassung der Breite */
+    max-width: 400px; /* Maximale Breite begrenzen */
+    height: auto; /* Automatische Höhe je nach Inhalt */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.close {
+    color: #aaa;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.confirm-button, .cancel-button {
+    background-color: #8794df;
+    color: white;
+    border: none;
+    padding: 10px 20px; /* Anpassung des Paddings für bessere Klickbarkeit */
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-left: 10px; /* Abstand zwischen den Buttons */
+}
+
+.confirm-button:hover, .cancel-button:hover {
+    background-color: #7d89cd;
+}
+
+/* Stile für deaktivierte Buttons */
+button:disabled,
+button:disabled:hover {
+    background-color: #bcbcbc; /* Grau */
+    color: lightgrey; /* Dunkleres Grau */
+    cursor: not-allowed; /* "Nicht erlaubt"-Cursor */
+}
+button:disabled img,
+button:disabled:hover img {
+    filter: invert(60%); /* Bilder ebenfalls ausgegraut */
+}
+
+#starttime{
+    width: 65px;
+}
+
+#endtime {
+    width: 65px;
+}
+
+#type {
+    width: 180px;
+}
+
+#description{
+    width: 150px;
+}
+
+
+.loading {
+    display: flex;
+    justify-content: center;
+    margin: 15px auto 25px;
+}
+
+.loaded {
+    display: flex;
+    justify-content: center;
+    visibility: hidden;
+    margin: 15px 0 25px;
+}
+
+.loader {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  background: #FFF;
+  box-shadow: -24px 0 #FFF, 24px 0 #FFF;
+  box-sizing: border-box;
+  animation: shadowPulse 2s linear infinite;
+}
+
+@keyframes shadowPulse {
+  33% {
+    background: #FFF;
+    box-shadow: -24px 0 #8794df, 24px 0 #FFF;
+  }
+  66% {
+    background: #8794df;
+    box-shadow: -24px 0 #FFF, 24px 0 #FFF;
+  }
+  100% {
+    background: #FFF;
+    box-shadow: -24px 0 #FFF, 24px 0 #8794df;
+  }
+}
+
+.infotext {
+    font-size: 14px;
+}
+
+#uploaderror {
+    display: block;
+    margin: auto;
+}
+
+.avatar-initials {
+  margin-right: 1rem;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  line-height: 40px;
+  text-align: center;
+  color: white;
+  background-color: #6598a7;
+  font-size: 20px;
+}
+
+h3 {
+    color: #8794df;
+    margin: 1rem 0 2rem;
+}
+
+.tooltip {
+    padding: 10px;
+    position: absolute;
+    width: auto;
+    white-space: nowrap;
+    word-wrap: normal;
+    box-shadow: 1px 1px 20px #aaa;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #7d89cd;
+    top: -110%; /* Positioned below the button */
+    left: 50%;
+    transform: translateX(-50%);
+    transform-style: preserve-3d;
+    z-index: 200;
+    font-size: 0.9em;
+    display: none; /* Hidden by default */
+}
+
+.upload-button:hover .tooltip, .clear-button:hover .tooltip {
+    display: block; /* Show on hover */
+}
+
+.upload-button:disabled:hover .tooltip, .clear-button:disabled:hover .tooltip {
+    display: none; /* Show on hover */
+}
+
+.tooltip:after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 10px;
+    height: 10px;
+    transform-origin: 50% 50%;
+    transform: rotate(45deg) translateX(-50%);
+    background-color: #fff;
+    left: 49%;
+    top: 95%;
+    z-index: 400;
+}
+
+.tooltip:before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    transform-origin: 50% 50%;
+    transform: rotate(45deg) translateX(-50%) translateZ(-1px);
+    background-color: #fff;
+    left: 49%;
+    top: 95%;
+    z-index: -1;
+    box-shadow: -1px -1px 20px #aaa;
+}

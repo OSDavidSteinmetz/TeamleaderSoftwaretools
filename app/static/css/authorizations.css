@@ -1,0 +1,525 @@
+/* Allgemeine Styles */
+body {
+  font-family: "Montserrat", sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+/* Header styles */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+header img {
+  margin-right: 10px;
+}
+header h1 {
+  font-size: 20px;
+  margin: 0;
+  color: #333;
+}
+header .left-container {
+  display: flex;
+  align-items: center;
+}
+header .right-container {
+  display: flex;
+  align-items: center;
+}
+.left-container {
+  display: flex;
+  align-items: center;
+}
+.right-container {
+  display: flex;
+  align-items: center;
+}
+.username {
+  margin-right: 20px;
+  font-size: 1.2em;
+  color: #333;
+}
+.logout-button {
+  background-color: #de8787;
+  color: white;
+  border: none;
+  padding: 10px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  display: flex;
+  margin-right: 1rem;
+}
+
+.logout-button:hover {
+  background-color: #d47c75;
+}
+
+.login-button {
+  background-color: #87dfb9;
+  color: white;
+  border: none;
+  padding: 10px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  display: flex;
+  margin-right: 1rem;
+}
+
+.login-button:hover {
+  background-color: #7dd4a7;
+}
+/* Content Styles */
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 2rem;
+  /* Abstand nach unten */
+  flex-grow: 1;
+  overflow: auto;
+}
+.box-container {
+  width: 100%;
+  max-width: 1200px;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin-top: 20px;
+}
+.box {
+  background-color: #e0e0e0;
+  padding: 20px;
+  text-align: center;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #333;
+}
+.box a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+}
+a {
+  text-decoration: none;
+}
+.box-container h3 {
+  text-align: center;
+}
+.box img {
+  margin-right: 10px;
+  width: 32px;
+  height: 32px;
+}
+/* Table Styles */
+table {
+  width: 85%;
+  border-collapse: collapse;
+  margin: 20px auto;
+}
+table,
+th,
+td {
+  border: 1px solid #ccc;
+}
+th,
+td {
+  width: 2%;
+  padding: 8px;
+  text-align: left;
+}
+th {
+  background-color: #f2f2f2;
+}
+th img {
+  vertical-align: middle;
+}
+.icon-column {
+  text-align: center;
+  padding: 5px 2px;
+}
+.employee-col {
+  width: 22%;
+  /* Beispiel: Spalte für Mitarbeiter auf 25% Breite festlegen */
+}
+.role-col {
+  width: 30%;
+  /* Beispiel: Spalte für Rolle auf 20% Breite festlegen */
+}
+/* File Upload Styles */
+.tools-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  /* Adjust spacing between file input and button */
+}
+/* Button Styles */
+.add-button {
+  background-color: #8794df;
+  color: white;
+  border: none;
+  padding: 10px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  display: flex;
+  position: relative;
+  /* Initial versteckt */
+}
+.add-button:hover {
+  background-color: #7d89cd;
+}
+.add-button img {
+  filter: invert(100%);
+  width: 25px;
+  height: 25px;
+  margin: auto;
+}
+.clear-button {
+  background-color: #8794df;
+  color: white;
+  border: none;
+  padding: 10px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  display: flex;
+  /* Initial versteckt */
+}
+.clear-button img {
+  filter: invert(100%);
+  width: 25px;
+  height: 25px;
+  margin: auto;
+}
+.clear-button:hover {
+  background-color: #7d89cd;
+}
+/* New CSS class for error messages */
+.error-message {
+  color: red;
+  text-align: center;
+  margin-top: 20px;
+}
+.success-message {
+  color: green;
+  text-align: center;
+  margin-top: 20px;
+}
+/* Stile für deaktivierte Buttons */
+button:disabled,
+button:disabled:hover {
+  background-color: #bcbcbc;
+  /* Grau */
+  color: lightgrey;
+  /* Dunkleres Grau */
+  cursor: not-allowed;
+  /* "Nicht erlaubt"-Cursor */
+}
+button:disabled img,
+button:disabled:hover img {
+  filter: invert(60%);
+  /* Bilder ebenfalls ausgegraut */
+}
+/* Checkbox Styles */
+input[type="checkbox"] {
+  appearance: none;
+  /* Versteckt die standardmäßige Checkbox */
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  vertical-align: middle;
+  cursor: pointer;
+}
+input[type="checkbox"]:checked {
+  background-color: #8794df;
+  /* Hintergrundfarbe, wenn angekreuzt */
+  border-color: #8794df;
+  /* Randfarbe, wenn angekreuzt */
+}
+input[type="checkbox"]:checked::before {
+  content: "\2713";
+  /* Zeigt ein Häkchen an */
+  font-size: 16px;
+  color: white;
+  display: block;
+  text-align: center;
+  line-height: 18px;
+  /* Vertikal zentriert */
+}
+input[type="checkbox"]:disabled {
+  background-color: #f0f0f0;
+  /* Hintergrundfarbe, wenn deaktiviert */
+  border-color: #ccc;
+  /* Randfarbe, wenn deaktiviert */
+  color: #ccc;
+  /* Farbe des Häkchens, wenn deaktiviert */
+}
+/* Styles für das Suchfeld */
+.search-field {
+  outline: none;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 200px;
+  margin-right: 10px;
+  /* Abstand zum nächsten Element */
+  color: #333;
+}
+.search-field::placeholder {
+  color: #aaa;
+}
+/* Modal Styling */
+.modal {
+  display: none;
+  /* Versteckt standardmäßig das Modal */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Hintergrund dunkelgrau mit Transparenz */
+}
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 60%;
+  /* Anpassung der Breite */
+  max-width: 400px;
+  /* Maximale Breite begrenzen */
+  height: auto;
+  /* Automatische Höhe je nach Inhalt */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-height: calc(100vh - 60px);
+  /* Maximale Höhe begrenzen */
+  overflow-y: auto;
+  /* Vertikales Scrollen bei Überlauf */
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.modal-header h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+.close {
+  color: #aaa;
+  font-size: 30px;
+  cursor: pointer;
+}
+.modal-body {
+  margin-top: 20px;
+}
+.form-group {
+  margin-bottom: 15px;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.form-group input[type="search"] {
+  width: calc(100% - 22px);
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+}
+.form-group input[type="checkbox"] {
+  margin-right: 10px;
+  outline: none;
+}
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.checkbox-item {
+  display: flex;
+  align-items: center;
+}
+.checkbox-item p {
+  margin: 0;
+}
+.checkbox-item label {
+  margin: 0;
+}
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+.confirm-button,
+.cancel-button {
+  background-color: #8794df;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  /* Anpassung des Paddings für bessere Klickbarkeit */
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-left: 10px;
+  /* Abstand zwischen den Buttons */
+}
+.confirm-button:hover,
+.cancel-button:hover {
+  background-color: #7d89cd;
+}
+.message {
+  position: fixed;
+  top: 4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+.message.show {
+  opacity: 1;
+}
+.success-message {
+  background-color: #87dfb5;
+  color: white;
+}
+.error-message {
+  background-color: #de8787;
+  color: white;
+}
+/* Styles für das "X" im Suchfeld */
+.search-field::-webkit-search-cancel-button {
+  cursor: pointer;
+}
+.search-field::-ms-clear {
+  display: none;
+}
+
+.avatar-initials {
+  margin-right: 1rem;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  line-height: 40px;
+  text-align: center;
+  color: white;
+  background-color: #6598a7;
+  font-size: 20px;
+}
+
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+/* Styles für number input */
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.workday-col {
+  width: 10%; /* Anpassung der Breite der Spalte */
+  padding: 4px 8px;
+}
+
+.workday-col input[type="number"] {
+  display: flex;
+  margin: 0 auto;
+  width: 20%;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  text-align: center;
+  transition: border-color 0.3s ease;
+}
+
+input[type="number"]:hover {
+  box-shadow: 0 0 5px rgba(135, 148, 223, 0.5);
+}
+
+input[type="number"]:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(135, 148, 223, 0.5);
+}
+
+.tooltip {
+    padding: 10px;
+    position: absolute;
+    width: auto;
+    white-space: nowrap;
+    word-wrap: normal;
+    box-shadow: 1px 1px 20px #aaa;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #7d89cd;
+    top: -110%; /* Positioned below the button */
+    left: 50%;
+    transform: translateX(-50%);
+    transform-style: preserve-3d;
+    z-index: 200;
+    font-size: 0.9em;
+    display: none; /* Hidden by default */
+}
+
+.add-button:hover .tooltip {
+    display: block; /* Show on hover */
+}
+
+.add-button:disabled:hover .tooltip {
+    display: none; /* Show on hover */
+}
+
+.tooltip:after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 10px;
+    height: 10px;
+    transform-origin: 50% 50%;
+    transform: rotate(45deg) translateX(-50%);
+    background-color: #fff;
+    left: 49%;
+    top: 95%;
+    z-index: 400;
+}
+
+.tooltip:before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    transform-origin: 50% 50%;
+    transform: rotate(45deg) translateX(-50%) translateZ(-1px);
+    background-color: #fff;
+    left: 49%;
+    top: 95%;
+    z-index: -1;
+    box-shadow: -1px -1px 20px #aaa;
+}

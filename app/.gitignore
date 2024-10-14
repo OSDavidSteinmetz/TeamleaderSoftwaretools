@@ -1,0 +1,6 @@
+# .gitignore
+.env
+whitelist.json
+worktype.json
+day_off_type.json
+Zeitenübersicht.csv

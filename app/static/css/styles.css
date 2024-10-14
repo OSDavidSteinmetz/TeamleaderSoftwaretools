@@ -1,0 +1,261 @@
+/* Global styles */
+body {
+  font-family: "Montserrat", sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Header styles */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+header img {
+  margin-right: 10px;
+}
+
+header h1 {
+  font-size: 20px;
+  margin: 0;
+  color: #333;
+}
+
+header .left-container {
+  display: flex;
+  align-items: center;
+}
+
+header .right-container {
+  display: flex;
+  align-items: center;
+}
+
+/* Main content styles */
+.content {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Box container styles */
+.box-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16px;
+  padding: 20px;
+  background-color: #d3d7ef;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.box {
+  background-color: #fff;
+  padding: 20px;
+  text-align: center;
+  border-radius: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  color: #333;
+  transition: transform 0.3s, box-shadow 0.3s;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  /* Needed for the ribbon positioning */
+}
+
+.box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.box a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+}
+
+.box-container h3 {
+  text-align: center;
+  width: 100%;
+}
+
+.box img {
+  margin-bottom: 10px;
+  width: 48px;
+  height: 48px;
+}
+
+a {
+  text-decoration: none;
+}
+
+.logout-button {
+  background-color: #de8787;
+  color: white;
+  border: none;
+  padding: 10px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  display: flex;
+  margin-right: 1rem;
+}
+
+.logout-button:hover {
+  background-color: #d47c75;
+}
+
+.login-button {
+  background-color: #87dfb9;
+  color: white;
+  border: none;
+  padding: 10px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  display: flex;
+  margin-right: 1rem;
+}
+
+.login-button:hover {
+  background-color: #7dd4a7;
+}
+
+.username {
+  margin-right: 20px;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.message-box {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  border-radius: 16px;
+  padding: 30px 25px;
+  background-color: #e0e0e0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.message-box img {
+  width: 30rem;
+}
+
+.message-button {
+  background-color: #de8787;
+  color: white;
+  border: none;
+  padding: 10px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+#mainpage {
+  color: #8794df;
+}
+
+.avatar-initials {
+  margin-right: 1rem;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  line-height: 40px;
+  text-align: center;
+  color: white;
+  background-color: #6598a7;
+  font-size: 20px;
+}
+
+.ribbon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 75px;
+  height: 75px;
+  overflow: hidden;
+}
+
+.ribbon::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-top: 37.5px solid transparent;
+  border-left: 37.5px solid transparent;
+}
+
+.ribbon span {
+  position: absolute;
+  top: 12px;
+  right: -27px;
+  width: 100px;
+  padding: 5px 0;
+  background-color: #87a7df;
+  color: white;
+  text-align: center;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  /* Safari */
+  font-size: 14px;
+}
+.loading {
+display: flex;
+    position: absolute;
+    justify-content: center;
+    top: 2%;
+    left: 49.5%;
+}
+
+.loaded {
+    display: none;
+}
+
+.loader {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: block;
+  margin:15px auto;
+  position: relative;
+  background: #fff;
+  box-shadow: -24px 0 #fff, 24px 0 #fff;
+  box-sizing: border-box;
+  animation: shadowPulse 2s linear infinite;
+}
+
+@keyframes shadowPulse {
+  33% {
+    background: #fff;
+    box-shadow: -24px 0 #8794df, 24px 0 #fff;
+  }
+  66% {
+    background: #8794df;
+    box-shadow: -24px 0 #fff, 24px 0 #fff;
+  }
+  100% {
+    background: #fff;
+    box-shadow: -24px 0 #fff, 24px 0 #8794df;
+  }
+}

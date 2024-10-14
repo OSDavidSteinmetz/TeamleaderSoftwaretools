@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teamleader Softwaretools</title>
+    <link rel="icon" href="{{ url_for('static', filename='assets/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/authorizations.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/breadcrumbs.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bugreport.css') }}">
+</head>
+<body>
+<header>
+    <div class="left-container">
+        <img src="{{ url_for('static', filename='assets/timer.png') }}" alt="Timer Icon" width="64">
+        <a href="."><h1>Teamleader Softwaretools</h1></a>
+    </div>
+    <div class="right-container">
+        <button type="button" class="error-button" onclick="toggleBubble()">
+            <img src="{{ url_for('static', filename='assets/bug.png') }}" alt="Upload Icon">
+        </button>
+        {% if username %}
+        <a class="ticket-button" href="./tickets.html">
+            <img src="{{ url_for('static', filename='assets/skills.png') }}" alt="Upload Icon">
+        </a>
+        <div class="avatar-initials" id="avatar-initials">{{ initials }}</div>
+        <button type="button" class="logout-button" onclick="logout()">
+            Abmelden
+        </button>
+        {% else %}
+        <button type="button" class="login-button" onclick="login()">
+            Anmelden
+        </button>
+        {% endif %}
+    </div>
+</header>
+<!-- Breadcrumb Navigation -->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <!-- Beispiel für Home Icon -->
+        <li class="breadcrumb-item">
+            <a href="/" class="breadcrumb-link">
+                <img src="/static/assets/home.svg" class="breadcrumb-icon" alt="Home Icon" width="16" height="16">
+                Startseite
+            </a>
+        </li>
+        <li class="breadcrumb-item active">
+            <img src="/static/assets/chevron.svg" class="breadcrumb-spacer" alt="Home Icon" width="16" height="16">
+            Berechtigungen zuweisen
+        </li>
+    </ol>
+</nav>
+<div class="content">
+    <div class="box-container">
+        <div class="box">
+            <div class="tools-container">
+                <input type="search" id="searchField" class="search-field" placeholder="Suche..." oninput="filterTable()">
+                <button id="save-button" class="add-button" disabled onclick="saveChanges()">
+                    <div class="tooltip">
+                        Änderungen speichern
+                    </div>
+                    <img src="{{ url_for('static', filename='assets/save.png') }}" alt="Upload Icon">
+                </button>
+                <button type="button" class="clear-button" onclick="clearSearch()" disabled>
+                    <img src="{{ url_for('static', filename='assets/reset.png') }}" alt="Abfalleimer">
+                </button>
+            </div>
+        </div>
+
+        <div id="box">
+            {% if error_message %}
+            <p class="error-message">{{ error_message }}</p>
+            {% endif %}
+            {% if success_message %}
+            <p class="success-message">{{ success_message }}</p>
+            {% endif %}
+            <table id="userTable">
+                <thead>
+                <tr>
+                    <th class="employee-col">Mitarbeiter</th>
+                    <th class="role-col">Rolle</th>
+                    <th class="workday-col">Wochenstunden</th>
+                    <th class="icon-column"><img src="{{ url_for('static', filename='assets/upload.png') }}" alt="Timer Icon" width="32"
+                             height="32">
+                    </th>
+                    <th class="icon-column"><img src="{{ url_for('static', filename='assets/files.png') }}" alt="Timer Icon" width="32"
+                             height="32">
+                    </th>
+                    <th class="icon-column"><img src="{{ url_for('static', filename='assets/absence.png') }}" alt="Timer Icon" width="32"
+                             height="32">
+                    </th>
+                    <th class="icon-column"><img src="{{ url_for('static', filename='assets/birthday.png') }}" alt="Timer Icon" width="32"
+                             height="32">
+                    </th>
+                    <th class="icon-column"><img src="{{ url_for('static', filename='assets/project.png') }}" alt="Projects Icon" width="32"
+                             height="32">
+                    </th>
+                    <th class="icon-column"><img src="{{ url_for('static', filename='assets/easy-access.png') }}" alt="Timer Icon" width="32"
+                             height="32">
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in user_list %}
+                <tr>
+                    <td class="employee-col">{{ user.employee }}</td>
+                    <td class="role-col">{{ user.role }}</td>
+                    <td class="workday-col"><input type="number" data-employee="{{ user.employee }}" data-permission="working_hours" value="{{ user.working_hours }}" min="0" onchange="changeAuthorizations()"></td>
+                    <td class="icon-column"><input type="checkbox" data-employee="{{ user.employee }}" data-permission="upload_times" {% if user.upload_times %}checked{% endif %} onchange="changeAuthorizations()"></td>
+                    <td class="icon-column"><input type="checkbox" data-employee="{{ user.employee }}" data-permission="manage_times" {% if user.manage_times %}checked{% endif %} onchange="changeAuthorizations()"></td>
+                    <td class="icon-column"><input type="checkbox" data-employee="{{ user.employee }}" data-permission="absence" {% if user.absence %}checked{% endif %} onchange="changeAuthorizations()"></td>
+                    <td class="icon-column"><input type="checkbox" data-employee="{{ user.employee }}" data-permission="birthday" {% if user.birthday %}checked{% endif %} onchange="changeAuthorizations()"></td>
+                    <td class="icon-column"><input type="checkbox" data-employee="{{ user.employee }}" data-permission="projects" {% if user.projects %}checked{% endif %} onchange="changeAuthorizations()"></td>
+                    <td class="icon-column"><input type="checkbox" data-employee="{{ user.employee }}" data-permission="authorizations" {% if user.authorizations %}checked{% endif %} onchange="changeAuthorizations()"></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+		<div id="errorBubble" class="bubble">
+    <h2>Fehler melden</h2>
+    <form id="errorForm">
+        <input type="text" id="errorTitle" placeholder="Titel" required>
+        <textarea id="errorText" placeholder="Fehlerbeschreibung" required></textarea>
+        <div id="dropZone" class="drop-zone">
+            <p>Screenshots hier ablegen oder klicken zum Auswählen</p>
+            <input type="file" id="errorImages" accept="image/*" multiple style="display: none;">
+        </div>
+        <div id="imagePreview" class="image-preview"></div>
+        <div class="button-container">
+            <button type="submit">OK</button>
+            <button type="button" class="cancel-button" onclick="hideBubble()">Abbrechen</button>
+        </div>
+    </form>
+</div>
+<div id="message-container"></div><script src="{{ url_for('static', filename='js/authorizations.js') }}"></script>
+<script src="{{ url_for('static', filename='js/login.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bugreport.js') }}"></script>
+</body>
+</html>
