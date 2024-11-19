@@ -2,8 +2,12 @@ let initialCheckboxValues = {};
 let initialNumberValues = {};
 
 document.addEventListener("DOMContentLoaded", (event) => {
-  const checkboxes = document.querySelectorAll('#userTable input[type="checkbox"]');
-  const numberInputs = document.querySelectorAll('#userTable input[type="number"]');
+  const checkboxes = document.querySelectorAll(
+    '#userTable input[type="checkbox"]'
+  );
+  const numberInputs = document.querySelectorAll(
+    '#userTable input[type="number"]'
+  );
 
   checkboxes.forEach((checkbox) => {
     const key = `${checkbox.dataset.employee}-${checkbox.dataset.permission}`;
@@ -34,7 +38,8 @@ function uploadTimes() {
   clearData();
   closeModal();
   var csvContentDiv = document.getElementById("csvContent");
-  csvContentDiv.innerHTML = '<p class="success-message">Die Zeiten wurden erfolgreich hochgeladen!</p>';
+  csvContentDiv.innerHTML =
+    '<p class="success-message">Die Zeiten wurden erfolgreich hochgeladen!</p>';
 }
 
 function filterTable() {
@@ -67,9 +72,17 @@ function changeAuthorizations() {
   saveButton.disabled = false;
 }
 
+function downloadToken() {
+  window.location.href = "/download-token";
+}
+
 function saveChanges() {
-  const checkboxes = document.querySelectorAll('#userTable input[type="checkbox"]');
-  const numberInputs = document.querySelectorAll('#userTable input[type="number"]');
+  const checkboxes = document.querySelectorAll(
+    '#userTable input[type="checkbox"]'
+  );
+  const numberInputs = document.querySelectorAll(
+    '#userTable input[type="number"]'
+  );
   let changes = {};
 
   checkboxes.forEach((checkbox) => {
@@ -123,7 +136,10 @@ function saveChanges() {
           });
           document.getElementById("save-button").disabled = true;
         } else {
-          showMessage("Fehler beim Speichern der Änderungen: " + data.message, "error");
+          showMessage(
+            "Fehler beim Speichern der Änderungen: " + data.message,
+            "error"
+          );
         }
       })
       .catch((error) => {

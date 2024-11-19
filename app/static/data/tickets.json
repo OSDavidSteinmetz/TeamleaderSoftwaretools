@@ -1,62 +1,11 @@
 [
   {
-    "id": 2,
-    "title": "Fehlende Quickinfos",
-    "description": "Bitte auf allen Links/Drucktasten, welche nur ein Icon besitzen, eine Quickinfo (Tooltip) hinterlegen, damit beim dr\u00fcberhoovern erkennbar wird, was dahintersteckt",
-    "status": "Archiviert",
-    "created_at": "Mo, 09. September 2024, 14:49:54 Uhr",
-    "images": [],
-    "user": "David Steinmetz"
-  },
-  {
-    "id": 3,
-    "title": "Falsche Anzahl Soll-Arbeitstage im August",
-    "description": "Im August wird in der App 'Zeitbuchung einsehen' eine zu hohe Anzahl an Soll-Arbeitstagen angezeigt. Beispiel Fabian Margraf: 8 Arbeitstage im August, siehe Screenshot. Die Spalte Arbeitstage zeigt 9 an. Dasselbe gilt f\u00fcr alle Mitarbeiter aus meinem Team. Ursache k\u00f6nnte der Feiertag am 15. August sein.",
-    "status": "Archiviert",
-    "created_at": "Mo, 09. September 2024, 14:50:14 Uhr",
-    "images": [],
-    "user": "David Steinmetz"
-  },
-  {
-    "id": 4,
-    "title": " Abwesenheiten einsehen: Anzeige nach Refresh (z.B. F5)",
-    "description": "Nice-to-have: Wenn ich z.B. die Wochenansicht der Folgewoche mir anzeigen lasse und will diese auffrischen, dann wird nach dem Refresh immer die Tagesansicht des aktuellen Tages angezeigt. W\u00e4re es m\u00f6glich, die letzte Ansicht beizubehalten?",
-    "status": "Archiviert",
-    "created_at": "Mo, 09. September 2024, 14:50:28 Uhr",
-    "images": [],
-    "user": "David Steinmetz"
-  },
-  {
-    "id": 5,
-    "title": " 'Fehler melden' funktioniert nur auf der Startseite",
-    "description": "Aus der App 'Zeitbuchung einsehen' heraus passiert nichts, wenn man auf 'Fehler melden' klickt.",
-    "status": "Archiviert",
-    "created_at": "Mo, 09. September 2024, 14:50:47 Uhr",
-    "images": [],
-    "user": "David Steinmetz"
-  },
-  {
-    "id": 5,
-    "title": "Projekte werden nicht richtig geladen",
-    "description": "Leider werden die aktiven Projekte immer noch nicht richtig reingeladen. ",
+    "id": 1,
+    "title": "Falsche Anzahl Arbeitstage im Oktober",
+    "description": "In \"Zeitbuchung einsehen\" werden die Soll-Arbeitstage falsch berechnet.\r\nBeispiel Samuel: Hat im Oktober 2 Tage gearbeitet, die App zeigt aber 4 Tage an.",
     "status": "Offen",
-    "created_at": "Mi, 11. September 2024, 10:12:58 Uhr",
-    "images": [
-      "Projekte werden nicht richtig geladenScreenshot_2024-09-11_101239.png"
-    ],
-    "user": "David Steinmetz"
-  },
-  {
-    "id": 6,
-    "title": "Test",
-    "description": "A",
-    "status": "Offen",
-    "created_at": "Mi, 11. September 2024, 11:52:04 Uhr",
-    "images": [
-      "Testwarning.png",
-      "Testbrowser_1.png",
-      "Testbrowser.png"
-    ],
-    "user": "David Steinmetz"
+    "created_at": "Di, 12. November 2024, 13:42:13 Uhr",
+    "images": [],
+    "user": "Fabian Margraf"
   }
 ]

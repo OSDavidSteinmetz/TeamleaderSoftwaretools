@@ -518,8 +518,8 @@ def get_number_of_absence_days(
         ]
 
         # Konvertiere start_date und end_date zu datetime-Objekten
-        start_dt = datetime.strptime(start_date, "%Y-%m-%d")
-        end_dt = datetime.strptime(end_date, "%Y-%m-%d")
+        start_dt = datetime.strptime(start_date, "%Y-%m-%d") + timedelta(days=1)
+        end_dt = datetime.strptime(end_date, "%Y-%m-%d") - timedelta(days=1)
 
         # Erstelle ein holidays-Objekt für Bayern
         bavarian_holidays = Germany(
