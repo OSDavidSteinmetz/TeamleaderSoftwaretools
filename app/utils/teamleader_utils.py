@@ -494,7 +494,7 @@ def get_number_of_absence_days(
         data = response.json()
 
         # Lade die IDs für relevante Abwesenheitstypen
-        with open("app/static/data/day_off_type.json", "r", encoding="utf-8") as f:
+        with open("static/data/day_off_type.json", "r", encoding="utf-8") as f:
             day_off_types = json.load(f)
 
         relevant_ids = [
@@ -528,9 +528,11 @@ def get_number_of_absence_days(
 
         absence_days = 0
         current_date = start_dt
+
         while current_date <= end_dt:
             # Prüfe auf Feiertage
             if current_date.date() in bavarian_holidays:
+                print(f"Feiertag gefunden: {current_date.date()}")
                 absence_days += 1
             else:
                 # Prüfe auf andere Abwesenheiten
@@ -545,6 +547,7 @@ def get_number_of_absence_days(
                         item_start <= current_date.date() <= item_end
                         and item["leave_type"]["id"] in relevant_ids
                     ):
+                        print(f"Abwesenheit gefunden: {current_date.date()}")
                         absence_days += 1
                         break
 

@@ -109,13 +109,13 @@
     {% else %}
     <div class="message-box">
         {% if username %}
-        <button type="button" class="message-button" disabled>
+        <div class="message-div">
             Dir fehlen wohl die Berechtigungen um die Apps zu nutzen.
-        </button>
+        </div>
         {% else %}
-        <button type="button" class="message-button" disabled>
+        <div class="message-div">
             Melde dich an, um die Apps nutzen zu können.
-        </button>
+        </div>
         {% endif %}
     </div>
     {% endif %}

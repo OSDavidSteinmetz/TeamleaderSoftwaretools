@@ -172,6 +172,18 @@ a {
   justify-content: center;
 }
 
+.message-div {
+  background-color: #de8787;
+  color: white;
+  border: none;
+  padding: 10px 10px;
+  cursor: default;
+  border-radius: 4px;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+}
+
 #mainpage {
   color: #8794df;
 }

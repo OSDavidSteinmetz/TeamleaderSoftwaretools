@@ -81,7 +81,6 @@ def home():
         username = session.get("username")
         initials = session.get("initials")
         whitelist = load_whitelist()
-        print(user_id)
         user_permissions = next(
             (user for user in whitelist if user["id"] == user_id), None
         )
@@ -590,7 +589,6 @@ def get_teams():
         for member in members:
             member_id = member.get("id")
             first_name, last_name = get_teamleader_user_info(access_token, member_id)
-            print(first_name, last_name)
 
             try:
                 days_of_absence = get_number_of_absence_days(

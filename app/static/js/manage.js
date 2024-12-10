@@ -42,17 +42,10 @@ function sendSelectedIdToPython() {
         return response.text();
     })
     .then(data => {
-        // DOMParser zum Parsen des zurückgegebenen HTML-Strings verwenden
         const parser = new DOMParser();
         const doc = parser.parseFromString(data, 'text/html');
-
-        // Den neuen Inhalt für den "box-content"-Bereich aus dem zurückgegebenen HTML holen
         const newBoxContent = doc.getElementById('box-container').innerHTML;
-
-        // Nur den alten "box-content" mit dem neuen Inhalt ersetzen
         document.getElementById('box-container').innerHTML = newBoxContent;
-
-        // Optional: Ladeanimation beenden, falls benötigt
         loader.className = "loaded";
     })
     .catch(error => {
@@ -90,8 +83,7 @@ function calculateDates(monthValue, selectedId) {
     let firstBlockDate, secondBlockDate, thirdBlockDate, fourthBlockDate, endDate;
 
     if (selectedId === "-2") {
-        // Calculate dates for the range 16th of previous month to 15th of current month
-        const currentDate = new Date(monthValue + "-01T00:00:00+02:00");
+        const currentDate = new Date(monthValue + "-01T23:59:00+02:00");
         const previousMonth = new Date(currentDate);
         previousMonth.setMonth(previousMonth.getMonth() - 1);
 
@@ -100,8 +92,7 @@ function calculateDates(monthValue, selectedId) {
         thirdBlockDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 5);
         endDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 16);
     } else {
-        // Original logic for other cases
-        firstBlockDate = new Date(monthValue + "-01T00:00:00+02:00");
+        firstBlockDate = new Date(monthValue + "-01T23:59:00+02:00");
         secondBlockDate = addDays(firstBlockDate, 10);
         thirdBlockDate = addDays(firstBlockDate, 20);
         endDate = new Date(firstBlockDate);
@@ -114,12 +105,11 @@ function calculateDates(monthValue, selectedId) {
         third_tmstmp: formatDate(thirdBlockDate),
         end_tmstmp: formatDate(endDate)
     };
+    console.log(dates);
 
-    // Check if we need to add a fourth timestamp
     if (selectedId === "-2") {
-        // For the special case, we don't add a fourth timestamp
     } else if ([0, 2, 4, 6, 7, 9, 11].includes(firstBlockDate.getMonth())) {
-        dates.fourth_tmstmp = formatDate(new Date(monthValue + "-31T00:00:00+02:00"));
+        dates.fourth_tmstmp = formatDate(new Date(monthValue + "-31T23:59:00+02:00"));
     }
 
     return dates;
@@ -143,7 +133,10 @@ function addDays(date, days) {
  * @returns {string} Das formatierte Datum
  */
 function formatDate(date) {
-    return date.toISOString().slice(0, 19) + "+02:00";
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}T23:59:00+02:00`;
 }
 
 /**
