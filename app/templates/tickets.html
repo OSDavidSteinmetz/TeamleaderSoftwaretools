@@ -87,7 +87,7 @@
                         {% endfor %}
                     </div>
                     <span class="ticketuser">Angelegt von: {{ ticket.user }}</span>
-                    {% if username == 'David Steinmetz' %}
+                    {% if username == 'David Steinmetz' or username == 'Jan Peter'%}
                     <form class="status-form">
                         <select name="status">
                             <option value="{{ ticket.status }}" hidden selected>{{ ticket.status }}</option>

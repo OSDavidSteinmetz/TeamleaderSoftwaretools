@@ -19,6 +19,10 @@ function redirectToTeamleader() {
     window.location.href = '/authorize-teamleader';
 }
 
+function getmilestones() {
+    window.location.href = '/fetch-subjects';
+}
+
 /**
  * Initiiert den Upload zu Teamleader und zeigt den Ladevorgang an.
  */

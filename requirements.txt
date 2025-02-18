@@ -1,4 +1,5 @@
 Flask==3.0.*
 requests==2.32.*
 load_dotenv==0.1.0
+scp==0.14.*
 holidays==0.31

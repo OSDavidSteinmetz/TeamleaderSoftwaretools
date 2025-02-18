@@ -4,7 +4,7 @@
     "id": "1626b394-869e-0d06-9c57-875bad91e576",
     "subject": {
       "type": "milestone",
-      "id": "f1c99a2a-f80b-0bea-8e6f-d07c939f8986"
+      "id": "60ac8e68-9345-0491-b36d-971473b50760"
     }
   },
   {
@@ -12,7 +12,7 @@
     "id": "26c1ee6e-0553-01b1-9455-753aa291e575",
     "subject": {
       "type": "milestone",
-      "id": "f1c99a2a-f80b-0bea-8e6f-d07c939f8986"
+      "id": "60ac8e68-9345-0491-b36d-971473b50760"
     }
   },
   {
@@ -20,7 +20,7 @@
     "id": "2358ccd5-cb8c-0eaf-9158-80acfaa25a01",
     "subject": {
       "type": "milestone",
-      "id": "f1c99a2a-f80b-0bea-8e6f-d07c939f8986"
+      "id": "60ac8e68-9345-0491-b36d-971473b50760"
     }
   },
   {
@@ -28,7 +28,7 @@
     "id": "f471e22f-eeba-0b5c-8f56-95455d5259ff",
     "subject": {
       "type": "milestone",
-      "id": "f1c99a2a-f80b-0bea-8e6f-d07c939f8986"
+      "id": "60ac8e68-9345-0491-b36d-971473b50760"
     }
   },
   {
@@ -36,23 +36,7 @@
     "id": "6e76d010-75c6-09c4-b55e-727a38e65c6b",
     "subject": {
       "type": "milestone",
-      "id": "f1c99a2a-f80b-0bea-8e6f-d07c939f8986"
-    }
-  },
-  {
-    "type": "Besprechung",
-    "id": "2358ccd5-cb8c-0eaf-9158-80acfaa25a01",
-    "subject": {
-      "type": "event",
-      "id": "9ed3a68e-c260-020e-8475-f6abb13a0e13"
-    }
-  },
-  {
-    "type": "Telefongespräch",
-    "id": "2358ccd5-cb8c-0eaf-9158-80acfaa25a01",
-    "subject": {
-      "type": "event",
-      "id": "81a83abb-dc29-02bc-8c78-b30cf1810f96"
+      "id": "60ac8e68-9345-0491-b36d-971473b50760"
     }
   }
 ]

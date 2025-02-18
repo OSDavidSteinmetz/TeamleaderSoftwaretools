@@ -105,7 +105,6 @@ function calculateDates(monthValue, selectedId) {
         third_tmstmp: formatDate(thirdBlockDate),
         end_tmstmp: formatDate(endDate)
     };
-    console.log(dates);
 
     if (selectedId === "-2") {
     } else if ([0, 2, 4, 6, 7, 9, 11].includes(firstBlockDate.getMonth())) {
@@ -196,7 +195,7 @@ function toggleConfirmButton() {
 
     confirmButton.disabled = !(teamSelect.value && date.value);
 
-    if (teamSelect.value === 'option14') {
+    if (teamSelect.value === 'option16') {
         shortInfo.style.display = 'block';
     } else {
         shortInfo.style.display = 'none';

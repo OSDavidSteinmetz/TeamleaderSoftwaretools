@@ -89,6 +89,9 @@
                     <th class="icon-column"><img src="{{ url_for('static', filename='assets/absence.png') }}" alt="Timer Icon" width="32"
                              height="32">
                     </th>
+                    <th class="icon-column"><img src="{{ url_for('static', filename='assets/illness.png') }}" alt="Timer Icon" width="32"
+                             height="32">
+                    </th>
                     <th class="icon-column"><img src="{{ url_for('static', filename='assets/birthday.png') }}" alt="Timer Icon" width="32"
                              height="32">
                     </th>
@@ -109,6 +112,7 @@
                     <td class="icon-column"><input type="checkbox" data-employee="{{ user.employee }}" data-permission="upload_times" {% if user.upload_times %}checked{% endif %} onchange="changeAuthorizations()"></td>
                     <td class="icon-column"><input type="checkbox" data-employee="{{ user.employee }}" data-permission="manage_times" {% if user.manage_times %}checked{% endif %} onchange="changeAuthorizations()"></td>
                     <td class="icon-column"><input type="checkbox" data-employee="{{ user.employee }}" data-permission="absence" {% if user.absence %}checked{% endif %} onchange="changeAuthorizations()"></td>
+                    <td class="icon-column"><input type="checkbox" data-employee="{{ user.employee }}" data-permission="illness" {% if user.illness %}checked{% endif %} onchange="changeAuthorizations()"></td>
                     <td class="icon-column"><input type="checkbox" data-employee="{{ user.employee }}" data-permission="birthday" {% if user.birthday %}checked{% endif %} onchange="changeAuthorizations()"></td>
                     <td class="icon-column"><input type="checkbox" data-employee="{{ user.employee }}" data-permission="projects" {% if user.projects %}checked{% endif %} onchange="changeAuthorizations()"></td>
                     <td class="icon-column"><input type="checkbox" data-employee="{{ user.employee }}" data-permission="authorizations" {% if user.authorizations %}checked{% endif %} onchange="changeAuthorizations()"></td>

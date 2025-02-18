@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,138 +11,142 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
     <link rel="icon" href="{{ url_for('static', filename='assets/favicon.ico') }}" type="image/x-icon">
 </head>
+
 <body>
-<header>
-    <div class="left-container">
-        <img src="{{ url_for('static', filename='assets/timer.png') }}" alt="Timer Icon" width="64">
-        <a href="."><h1>Teamleader Softwaretools</h1></a>
-    </div>
-    <div class="right-container">
-        <button type="button" class="error-button" onclick="toggleBubble()">
-            <img src="{{ url_for('static', filename='assets/bug.png') }}" alt="Upload Icon">
-        </button>
-        {% if username %}
-        <a class="ticket-button" href="./tickets.html">
-            <img src="{{ url_for('static', filename='assets/skills.png') }}" alt="Upload Icon">
-        </a>
-        <div class="avatar-initials" id="avatar-initials">{{ initials }}</div>
-        <button type="button" class="logout-button" onclick="logout()">
-            Abmelden
-        </button>
-        {% else %}
-        <button type="button" class="login-button" onclick="login()">
-            Anmelden
-        </button>
-        {% endif %}
-    </div>
-</header>
-<!-- Breadcrumb Navigation -->
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <!-- Beispiel für Home Icon -->
-        <li class="breadcrumb-item active" id="mainpage">
-            <img src="/static/assets/home.svg" class="breadcrumb-icon" alt="Home Icon" width="16" height="16">
-            Startseite
-        </li>
-    </ol>
-</nav>
-<div class="content">
-    {% if upload_times or manage_times or absence or authorizations %}
-    <div class="box-container">
-        {% if upload_times %}
-        <div class="box">
-            <a href="upload-times.html">
-                <img src="{{ url_for('static', filename='assets/upload.png') }}" alt="Upload Icon">
-                Zeitbuchung erfassen
+    <header>
+        <div class="left-container">
+            <img src="{{ url_for('static', filename='assets/timer.png') }}" alt="Timer Icon" width="64">
+            <a href=".">
+                <h3>Teamleader Softwaretools</h3>
             </a>
         </div>
-        {% endif %}
-        {% if manage_times %}
-        <div class="box">
-            <a href="manage-times.html">
-                <img src="{{ url_for('static', filename='assets/files.png') }}" alt="Manage Times Icon">
-                Zeitbuchung einsehen
+        <div class="right-container">
+            <button type="button" class="error-button" onclick="toggleBubble()">
+                <img src="{{ url_for('static', filename='assets/bug.png') }}" alt="Upload Icon">
+            </button>
+            {% if username %}
+            <a class="ticket-button" href="./tickets.html">
+                <img src="{{ url_for('static', filename='assets/skills.png') }}" alt="Upload Icon">
             </a>
+            <div class="avatar-initials" id="avatar-initials">{{ initials }}</div>
+            <button type="button" class="logout-button" onclick="logout()">
+                Abmelden
+            </button>
+            {% else %}
+            <button type="button" class="login-button" onclick="login()">
+                Anmelden
+            </button>
+            {% endif %}
         </div>
-        {% endif %}
-        {% if absence %}
-        <div class="box">
-            <a href="absence.html">
-                <img src="{{ url_for('static', filename='assets/absence.png') }}" alt="Absence Icon">
-                Abwesenheiten einsehen
-            </a>
-        </div>
-        {% endif %}
-        {% if absence %}
-        <div class="box">
-            <div class="ribbon"><span>Neu</span></div>
-            <a href="illness.html">
-                <img src="{{ url_for('static', filename='assets/illness.png') }}" alt="Absence Icon">
-                Krankheitsstunden einsehen
-            </a>
-        </div>
-        {% endif %}
-        {% if birthday %}
-        <div class="box">
-            <a href="birthday.html">
-                <img src="{{ url_for('static', filename='assets/birthday.png') }}" alt="Birthday Icon">
-                Geburtstage
-            </a>
-        </div>
-        {% endif %}
-        {% if projects %}
-        <div class="box">
-            <a href="projects.html">
-                <img src="{{ url_for('static', filename='assets/project.png') }}" alt="Project Icon">
-                Projektübersicht
-            </a>
-        </div>
-        {% endif %}
-        {% if authorizations %}
-        <div class="box">
-            <a href="authorizations.html">
-                <img src="{{ url_for('static', filename='assets/easy-access.png') }}" alt="Authorizations Icon">
-                Mitarbeiter verwalten
-            </a>
-        </div>
-        {% endif %}
-    </div>
-    {% else %}
-    <div class="message-box">
-        {% if username %}
-        <div class="message-div">
-            Dir fehlen wohl die Berechtigungen um die Apps zu nutzen.
+    </header>
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <!-- Beispiel für Home Icon -->
+            <li class="breadcrumb-item active" id="mainpage">
+                <img src="/static/assets/home.svg" class="breadcrumb-icon" alt="Home Icon" width="16" height="16">
+                Startseite
+            </li>
+        </ol>
+    </nav>
+    <div class="content">
+        {% if upload_times or manage_times or absence or authorizations %}
+        <div class="box-container">
+            {% if upload_times %}
+            <div class="box">
+                <a href="upload-times.html">
+                    <img src="{{ url_for('static', filename='assets/upload.png') }}" alt="Upload Icon">
+                    Zeitbuchung erfassen
+                </a>
+            </div>
+            {% endif %}
+            {% if manage_times %}
+            <div class="box">
+                <a href="manage-times.html">
+                    <img src="{{ url_for('static', filename='assets/files.png') }}" alt="Manage Times Icon">
+                    Zeitbuchung einsehen
+                </a>
+            </div>
+            {% endif %}
+            {% if absence %}
+            <div class="box">
+                <a href="absence.html">
+                    <img src="{{ url_for('static', filename='assets/absence.png') }}" alt="Absence Icon">
+                    Abwesenheiten einsehen
+                </a>
+            </div>
+            {% endif %}
+            {% if illness %}
+            <div class="box">
+                <!--<div class="ribbon"><span>Neu</span></div>-->
+                <a href="illness.html">
+                    <img src="{{ url_for('static', filename='assets/illness.png') }}" alt="Absence Icon">
+                    Krankheitsstunden einsehen
+                </a>
+            </div>
+            {% endif %}
+            {% if birthday %}
+            <div class="box">
+                <a href="birthday.html">
+                    <img src="{{ url_for('static', filename='assets/birthday.png') }}" alt="Birthday Icon">
+                    Geburtstage
+                </a>
+            </div>
+            {% endif %}
+            {% if projects %}
+            <div class="box">
+                <a href="projects.html">
+                    <img src="{{ url_for('static', filename='assets/project.png') }}" alt="Project Icon">
+                    Projektübersicht
+                </a>
+            </div>
+            {% endif %}
+            {% if authorizations %}
+            <div class="box">
+                <a href="authorizations.html">
+                    <img src="{{ url_for('static', filename='assets/easy-access.png') }}" alt="Authorizations Icon">
+                    Mitarbeiter verwalten
+                </a>
+            </div>
+            {% endif %}
         </div>
         {% else %}
-        <div class="message-div">
-            Melde dich an, um die Apps nutzen zu können.
+        <div class="message-box">
+            {% if username %}
+            <div class="message-div">
+                Dir fehlen wohl die Berechtigungen um die Apps zu nutzen.
+            </div>
+            {% else %}
+            <div class="message-div">
+                Melde dich an, um die Apps nutzen zu können.
+            </div>
+            {% endif %}
         </div>
         {% endif %}
     </div>
-    {% endif %}
-</div>
-<div id="loader" class="loaded">
-    <span class="loader"></span>
-</div>
-<div id="errorBubble" class="bubble">
-    <h2>Fehler melden</h2>
-    <form id="errorForm">
-        <input type="text" id="errorTitle" placeholder="Titel" required>
-        <textarea id="errorText" placeholder="Fehlerbeschreibung" required></textarea>
-        <div id="dropZone" class="drop-zone">
-            <p>Screenshots hier ablegen oder klicken zum Auswählen</p>
-            <input type="file" id="errorImages" accept="image/*" multiple style="display: none;">
-        </div>
-        <div id="imagePreview" class="image-preview"></div>
-        <div class="button-container">
-            <button type="submit">OK</button>
-            <button type="button" class="cancel-button" onclick="hideBubble()">Abbrechen</button>
-        </div>
-    </form>
-</div>
-<div id="message-container"></div>
-<script src="{{ url_for('static', filename='js/login.js') }}"></script>
-<script src="{{ url_for('static', filename='js/bugreport.js') }}"></script>
-<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    <div id="loader" class="loaded">
+        <span class="loader"></span>
+    </div>
+    <div id="errorBubble" class="bubble">
+        <h2>Fehler melden</h2>
+        <form id="errorForm">
+            <input type="text" id="errorTitle" placeholder="Titel" required>
+            <textarea id="errorText" placeholder="Fehlerbeschreibung" required></textarea>
+            <div id="dropZone" class="drop-zone">
+                <p>Screenshots hier ablegen oder klicken zum Auswählen</p>
+                <input type="file" id="errorImages" accept="image/*" multiple style="display: none;">
+            </div>
+            <div id="imagePreview" class="image-preview"></div>
+            <div class="button-container">
+                <button type="submit">OK</button>
+                <button type="button" class="cancel-button" onclick="hideBubble()">Abbrechen</button>
+            </div>
+        </form>
+    </div>
+    <div id="message-container"></div>
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bugreport.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 </body>
+
 </html>

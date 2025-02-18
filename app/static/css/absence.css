@@ -406,7 +406,7 @@ span[data-absence="Home Office"], span[data-absence="Berufsschule/FH/Uni"], span
 }
 
 /* Green color for "Urlaub" */
-span[data-absence="✅ Urlaub"], span[data-absence="❌ Urlaub"], span[data-absence="✅ Resturlaub"], span[data-absence="❌ Resturlaub"], span[data-absence="✅ Sonderurlaub"], span[data-absence="❌ Sonderurlaub"], span[data-absence="✅ Unbezahlter Urlaub"], span[data-absence="❌ Unbezahlter Urlaub"], span[data-absence="✅ Urlaubsdokus_Studis"], span[data-absence="❌ Urlaubsdokus_Studis"], span[data-absence="Überstunden"], span[data-absence="Elternzeit"], span[data-absence="Mutterschutz"]{
+span[data-absence="✅ Urlaub"], span[data-absence="❌ Urlaub"], span[data-absence="✅ Resturlaub"], span[data-absence="❌ Resturlaub"], span[data-absence="✅ Sonderurlaub"], span[data-absence="❌ Sonderurlaub"], span[data-absence="✅ Unbezahlter Urlaub"], span[data-absence="❌ Unbezahlter Urlaub"], span[data-absence="✅ Urlaubsdokus_Studis"], span[data-absence="❌ Urlaubsdokus_Studis"], span[data-absence="Überstunden"], span[data-absence="Elternzeit"], span[data-absence="Mutterschutz"], span[data-absence="Resturlaub 2024"], span[data-absence="Freier Tag"]{
     color: #8794df;
     font-weight: bold;
 }

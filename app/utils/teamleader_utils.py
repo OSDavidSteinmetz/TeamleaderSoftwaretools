@@ -144,6 +144,7 @@ def get_all_users(access_token: str) -> Optional[List[Dict[str, Any]]]:
                         "upload_times": whitelist_entry.get("upload_times", "false"),
                         "manage_times": whitelist_entry.get("manage_times", "false"),
                         "absence": whitelist_entry.get("absence", "false"),
+                        "illness": whitelist_entry.get("illness", "false"),
                         "birthday": whitelist_entry.get("birthday", "false"),
                         "projects": whitelist_entry.get("projects", "false"),
                         "authorizations": whitelist_entry.get(
@@ -392,6 +393,8 @@ def get_teamleader_teams(
             headers = {"Authorization": f"Bearer {access_token}"}
             if team_id == "-1":
                 body = {"filter": {}}
+            elif team_id2 is not None and team_id3 is None:
+                body = {"filter": {"ids": [team_id, team_id2]}}
             elif team_id2 is not None and team_id3 is not None:
                 body = {"filter": {"ids": [team_id, team_id2, team_id3]}}
             else:
@@ -446,30 +449,42 @@ def get_teamleader_user_info(
 
 
 def get_special_working_hours(member_id: str, workdays_count: int) -> int:
-    # Load data from the whitelist.json file
-    with open("app/static/data/whitelist.json", "r", encoding="utf-8") as file:
-        data = json.load(file)
+    try:
+        # Load data from the whitelist.json file
+        with open("app/static/data/whitelist.json", "r", encoding="utf-8") as file:
+            data = json.load(file)
 
-    # Iterate over each user in the whitelist
-    for user in data:
-        # Check if the member_id matches the user's id
-        if user["id"] == member_id:
-            # Check if the working_hours are less than 40
-            if user["working_hours"] < 40:
-                actual_working_days = math.ceil(
-                    workdays_count * (user["working_hours"] / 40)
-                )
-                return actual_working_days
+        # Iterate over each user in the whitelist
+        for user in data:
+            # Check if the member_id matches the user's id
+            if user["id"] == member_id:
+                # Check if the working_hours are less than 40
+                if user["working_hours"] < 40:
+                    actual_working_days = math.ceil(
+                        workdays_count * (user["working_hours"] / 40)
+                    )
+                    return actual_working_days
 
-    # If no matching user or working_hours >= 40, return None or a suitable default value
-    return workdays_count
+        # If no matching user or working_hours >= 40, return None or a suitable default value
+        return workdays_count
+
+    except FileNotFoundError:
+        print("Die Datei whitelist.json wurde nicht gefunden.")
+        return workdays_count
+    except json.JSONDecodeError:
+        print("Die JSON-Datei konnte nicht gelesen werden. Überprüfen Sie das Format.")
+        return workdays_count
+    except Exception as e:
+        print(f"Ein unerwarteter Fehler ist aufgetreten: {str(e)}")
+        return workdays_count
 
 
 def get_number_of_absence_days(
-    access_token: str, member_id: str, start_date: str, end_date: str
-) -> int:
+        access_token: str, member_id: str, start_date: str, end_date: str
+) -> float:
     """
-    Berechnet die Anzahl der Abwesenheitstage für einen Benutzer in einem bestimmten Zeitraum.
+    Berechnet die Anzahl der Abwesenheitstage für einen Benutzer in einem bestimmten Zeitraum,
+    unter Berücksichtigung von halben Tagen basierend auf den gebuchten Stunden.
 
     Args:
         access_token (str): Das Access-Token für die Teamleader-API.
@@ -478,7 +493,7 @@ def get_number_of_absence_days(
         end_date (str): Das Enddatum des Zeitraums.
 
     Returns:
-        int: Die Anzahl der Abwesenheitstage.
+        float: Die Anzahl der Abwesenheitstage (inkl. anteilige Tage).
     """
     headers = {"Authorization": f"Bearer {access_token}"}
     body = {
@@ -494,27 +509,29 @@ def get_number_of_absence_days(
         data = response.json()
 
         # Lade die IDs für relevante Abwesenheitstypen
-        with open("static/data/day_off_type.json", "r", encoding="utf-8") as f:
+        with open("app/static/data/day_off_type.json", "r", encoding="utf-8") as f:
             day_off_types = json.load(f)
 
         relevant_ids = [
             item["id"]
             for item in day_off_types
             if item["type"]
-            in [
-                "Urlaub",
-                "Krankheit",
-                "Berufsschule/FH/Uni",
-                "Elternzeit",
-                "Kind krank",
-                "Überstunden",
-                "Mutterschutz",
-                "Kurzarbeit",
-                "Resturlaub",
-                "Sonderurlaub",
-                "Unbezahlter Urlaub",
-                "Urlaubsdoku_Studis",
-            ]
+               in [
+                   "Urlaub",
+                   "Krankheit",
+                   "Berufsschule/FH/Uni",
+                   "Elternzeit",
+                   "Kind krank",
+                   "Überstunden",
+                   "Mutterschutz",
+                   "Kurzarbeit",
+                   "Resturlaub",
+                   "Resturlaub 2024",
+                   "Sonderurlaub",
+                   "Unbezahlter Urlaub",
+                   "Urlaubsdoku_Studis",
+                   "Gleitzeit"
+               ]
         ]
 
         # Konvertiere start_date und end_date zu datetime-Objekten
@@ -526,34 +543,38 @@ def get_number_of_absence_days(
             prov="BY", years=range(start_dt.year, end_dt.year + 1), language="de"
         )
 
-        absence_days = 0
+        absence_days = 0.0
         current_date = start_dt
 
         while current_date <= end_dt:
             # Prüfe auf Feiertage
             if current_date.date() in bavarian_holidays:
-                print(f"Feiertag gefunden: {current_date.date()}")
                 absence_days += 1
             else:
                 # Prüfe auf andere Abwesenheiten
                 for item in data["data"]:
                     item_start = datetime.strptime(
                         item["starts_at"], "%Y-%m-%dT%H:%M:%S%z"
-                    ).date()
+                    )
                     item_end = datetime.strptime(
                         item["ends_at"], "%Y-%m-%dT%H:%M:%S%z"
-                    ).date()
-                    if (
-                        item_start <= current_date.date() <= item_end
-                        and item["leave_type"]["id"] in relevant_ids
-                    ):
-                        print(f"Abwesenheit gefunden: {current_date.date()}")
-                        absence_days += 1
+                    )
+
+                    # Prüfe ob der aktuelle Tag betroffen ist
+                    if (item_start.date() <= current_date.date() <= item_end.date()
+                            and item["leave_type"]["id"] in relevant_ids):
+                        # Berechne die Stunden der Abwesenheit
+                        duration = item_end - item_start
+                        hours = duration.total_seconds() / 3600
+
+                        # Berechne den anteiligen Tag (8 Stunden = 1 Tag)
+                        day_fraction = min(hours / 8.0, 1.0)
+                        absence_days += day_fraction
                         break
 
             current_date += timedelta(days=1)
 
-        return absence_days
+        return round(absence_days, 2)
 
     except requests.RequestException as e:
         print(f"HTTP-Fehler aufgetreten: {e}")
@@ -631,6 +652,7 @@ def get_number_of_illness_days(
         print(f"Ein Fehler ist aufgetreten: {e}")
         return 0
 
+
 def get_teamleader_user_times(
     access_token: str,
     member_id: str,
@@ -656,6 +678,19 @@ def get_teamleader_user_times(
         Dict[str, Any]: Eine Zusammenfassung der Zeiterfassungsdaten.
     """
     try:
+        # Überprüfe Pflichtparameter
+        if not all(
+            [
+                access_token,
+                member_id,
+                first_tmstmp,
+                second_tmstmp,
+                third_tmstmp,
+                end_tmstmp,
+            ]
+        ):
+            raise ValueError("Erforderliche Parameter fehlen")
+
         headers = {"Authorization": f"Bearer {access_token}"}
 
         time_intervals = [
@@ -675,26 +710,37 @@ def get_teamleader_user_times(
         all_work_entries = []
 
         for interval in time_intervals:
-            body = {
-                "filter": {
-                    "user_id": member_id,
-                    "started_after": interval["started_after"],
-                    "ended_before": interval["ended_before"],
-                },
-                "sort": [{"field": "starts_on"}],
-                "page": {"size": 100, "number": 1},
-            }
+            try:
+                body = {
+                    "filter": {
+                        "user_id": member_id,
+                        "started_after": interval["started_after"],
+                        "ended_before": interval["ended_before"],
+                    },
+                    "sort": [{"field": "starts_on"}],
+                    "page": {"size": 100, "number": 1},
+                }
 
-            response = requests.post(
-                f"{TEAMLEADER_API_BASE_URL}/timeTracking.list",
-                headers=headers,
-                json=body,
-            )
-            response.raise_for_status()
+                response = requests.post(
+                    f"{TEAMLEADER_API_BASE_URL}/timeTracking.list",
+                    headers=headers,
+                    json=body,
+                    timeout=10,  # Timeout nach 10 Sekunden
+                )
+                response.raise_for_status()
 
-            data = response.json()
-            if "data" in data and data["data"]:
-                all_work_entries.extend(data["data"])
+                data = response.json()
+                if "data" in data and data["data"]:
+                    all_work_entries.extend(data["data"])
+
+            except requests.Timeout:
+                print(f"Timeout bei der Anfrage für das Zeitintervall {interval}")
+                continue
+            except requests.RequestException as e:
+                print(
+                    f"Fehler bei der API-Anfrage für das Zeitintervall {interval}: {str(e)}"
+                )
+                continue
 
         if not all_work_entries:
             all_work_entries = [{"started_on": "", "duration": 0, "invoiceable": False}]
@@ -702,9 +748,17 @@ def get_teamleader_user_times(
         return summarize_work_entries(all_work_entries)
 
     except requests.RequestException as e:
-        return "Sie haben keine Berechtigung, dieses Team einzusehen"
-    except (KeyError, ValueError) as e:
-        return str(e)
+        print(f"API-Fehler: {str(e)}")
+        return {"error": "Sie haben keine Berechtigung, dieses Team einzusehen"}
+    except ValueError as e:
+        print(f"Validierungsfehler: {str(e)}")
+        return {"error": str(e)}
+    except KeyError as e:
+        print(f"Datenzugriffsfehler: {str(e)}")
+        return {"error": "Fehler beim Zugriff auf die Daten"}
+    except Exception as e:
+        print(f"Unerwarteter Fehler: {str(e)}")
+        return {"error": "Ein unerwarteter Fehler ist aufgetreten"}
 
 
 def summarize_work_entries(work_entries: List[Dict[str, Any]]) -> Dict[str, Any]:

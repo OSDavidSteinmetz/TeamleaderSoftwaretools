@@ -35,6 +35,7 @@ from utils.teamleader_utils import (
     get_user_absence,
     refresh_teamleader_token,
 )
+from utils.technical_utils import download_file, refresh_token_code, upload_file
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -93,6 +94,7 @@ def home():
                 upload_times=user_permissions["upload_times"],
                 manage_times=user_permissions["manage_times"],
                 absence=user_permissions["absence"],
+                illness=user_permissions["illness"],
                 birthday=user_permissions["birthday"],
                 projects=user_permissions["projects"],
                 authorizations=user_permissions["authorizations"],
@@ -213,11 +215,22 @@ def birthday():
 
 @app.route("/absence.html", methods=["POST", "GET"])
 def absence():
-    error_redirect = handle_token_refresh()
-    if error_redirect:
-        return error_redirect
+    try:
+        with open("app/static/data/code.json", "r", encoding="utf-8") as f:
+            tokens = json.load(f)
+        access_token = tokens["access_token"]
+        
+        download_file()
+        refresh_token_code() 
+        upload_file()
 
-    access_token = session.get("access_token")
+    except Exception as e:
+        error_redirect = handle_token_refresh()
+        if error_redirect:
+            return error_redirect
+        
+        access_token = session.get("access_token")
+
     username = session.get("username")
     initials = session.get("initials")
     userId = session.get("userId")
@@ -297,21 +310,51 @@ def absence():
     team_id = None
     team_id2 = None
     team_id3 = None
+    # Dictionary für Team-Konfigurationen
+    team_configs = {
+        # Gesamtes Team Jörg K.
+        "635876ac-a7f0-0e02-ad5d-0190f3f32f2e": [
+            "f49c6b93-b930-044d-be5d-2e9a7a22bfad",
+            "0ed1261b-cde1-07af-ba56-315561d3082d",
+        ],
+        "f49c6b93-b930-044d-be5d-2e9a7a22bfad": [
+            "635876ac-a7f0-0e02-ad5d-0190f3f32f2e",
+            "0ed1261b-cde1-07af-ba56-315561d3082d",
+        ],
+        "0ed1261b-cde1-07af-ba56-315561d3082d": [
+            "635876ac-a7f0-0e02-ad5d-0190f3f32f2e",
+            "f49c6b93-b930-044d-be5d-2e9a7a22bfad",
+        ],
+        # Gesamtes Team Reinhold G.
+        "7f88fa5f-e174-061f-9e54-8b4586234146": [
+            "299434b4-47a5-026c-b059-42f32b9357f8"
+        ],
+        # Gesamtes Team Jannis S.
+        "6ded28b1-8987-0e20-b655-668170f2bfb5": [
+            "283a1bc2-beb1-00c8-be5c-4848566357f7"
+        ],
+        # Gesamtes Team Fabian O.
+        "d1701b1c-0423-0f0a-8c5d-ff1c5a72bfaa": [
+            "974fca82-4ff9-0275-8052-1fde5f336fa5"
+        ],
+        # Gesamtes Team Tilmann R.
+        "473c86b8-3929-027c-9853-5a26f84342f5": [
+            "b8a1e30f-b21b-0526-b053-31f3de83625d"
+        ],
+    }
+
     for user_info in whitelist:
         if user_info["id"] == userId:
             team_id = user_info["team_id"]
-            if userId == "ef0efb7d-1c27-0226-a158-66dd19366408":
-                team_id2 = "f49c6b93-b930-044d-be5d-2e9a7a22bfad"
-                team_id3 = "0ed1261b-cde1-07af-ba56-315561d3082d"
             break
 
     if not team_id:
         return "Unauthorized", 401
 
-    if team_id2 is not None and team_id3 is not None:
-        response = get_teamleader_teams(access_token, team_id, team_id2, team_id3)
+    if team_id in team_configs:
+        additional_team_ids = team_configs[team_id]
+        response = get_teamleader_teams(access_token, team_id, *additional_team_ids)
     else:
-        # Calling function to retrieve team leader's teams
         response = get_teamleader_teams(access_token, team_id)
 
     try:
@@ -406,7 +449,7 @@ def illness():
     initials = session.get("initials")
     user_permissions = session.get("user_permissions", {})
 
-    if not user_permissions.get("absence", False):
+    if not user_permissions.get("illness", False):
         return render_template("error.html", username=username, initials=initials)
 
     # Hol dir das heutige Datum
@@ -429,7 +472,7 @@ def get_illness_days():
     initials = session.get("initials")
     user_permissions = session.get("user_permissions", {})
 
-    if not user_permissions.get("absence", False):
+    if not user_permissions.get("illness", False):
         return render_template("error.html", username=username, initials=initials)
 
     # Hol dir das heutige Datum
@@ -448,7 +491,9 @@ def get_illness_days():
     if current_date.month == 12:
         end_date = date(current_date.year + 1, 1, 1).strftime("%Y-%m-%d")
     else:
-        end_date = date(current_date.year, current_date.month + 1, 1).strftime("%Y-%m-%d")
+        end_date = date(current_date.year, current_date.month + 1, 1).strftime(
+            "%Y-%m-%d"
+        )
 
     # Formatiere den Monat im Format "YYYY-MM"
     currentMonth = current_date.strftime("%Y-%m")
@@ -463,13 +508,17 @@ def get_illness_days():
     access_token = session.get("access_token")
 
     for index, employee in enumerate(whitelist, 1):
-        days = get_number_of_illness_days(access_token, employee["id"], start_date, end_date)
+        days = get_number_of_illness_days(
+            access_token, employee["id"], start_date, end_date
+        )
         if days > 0:
-            illness_table.append({
-                "employee": employee["employee"],
-                "days": str(days),
-                "hours": str(days * 8)
-            })
+            illness_table.append(
+                {
+                    "employee": employee["employee"],
+                    "days": str(days),
+                    "hours": str(days * 8),
+                }
+            )
 
     # Monatsname für die Fehlermeldung
     month_name = current_date.strftime("%B")
@@ -483,7 +532,7 @@ def get_illness_days():
             username=username,
             initials=initials,
             today=currentMonth,
-            illness=illness_table
+            illness=illness_table,
         )
     else:
         return render_template(
@@ -491,7 +540,7 @@ def get_illness_days():
             username=username,
             initials=initials,
             today=currentMonth,
-            error_message=f"Im {month_name} gab es keine Krankheitsausfälle"
+            error_message=f"Im {month_name} gab es keine Krankheitsausfälle",
         )
 
 
@@ -580,7 +629,35 @@ def get_teams():
         # Gehe zum nächsten Tag
         current_day += timedelta(days=1)
 
-    response = get_teamleader_teams(access_token, selected_id)
+    team_configs = {
+        # Gesamtes Team Jörg K.
+        "635876ac-a7f0-0e02-ad5d-0190f3f32f2e": [
+            "f49c6b93-b930-044d-be5d-2e9a7a22bfad",
+            "0ed1261b-cde1-07af-ba56-315561d3082d",
+        ],
+        # Gesamtes Team Reinhold G.
+        "7f88fa5f-e174-061f-9e54-8b4586234146": [
+            "299434b4-47a5-026c-b059-42f32b9357f8"
+        ],
+        # Gesamtes Team Jannis S.
+        "6ded28b1-8987-0e20-b655-668170f2bfb5": [
+            "283a1bc2-beb1-00c8-be5c-4848566357f7"
+        ],
+        # Gesamtes Team Fabian O.
+        "d1701b1c-0423-0f0a-8c5d-ff1c5a72bfaa": [
+            "974fca82-4ff9-0275-8052-1fde5f336fa5"
+        ],
+        # Gesamtes Team Tilmann R.
+        "473c86b8-3929-027c-9853-5a26f84342f5": [
+            "b8a1e30f-b21b-0526-b053-31f3de83625d"
+        ],
+    }
+
+    if selected_id in team_configs:
+        team_ids = team_configs[selected_id]
+        response = get_teamleader_teams(access_token, selected_id, *team_ids)
+    else:
+        response = get_teamleader_teams(access_token, selected_id)
 
     members_info = []
 
@@ -609,6 +686,7 @@ def get_teams():
                     fourth_tmstmp,
                 )
 
+                denominator = (special_working_hours - days_of_absence) * 8
                 members_info.append(
                     {
                         "first_name": first_name,
@@ -625,11 +703,15 @@ def get_teams():
                         "total_days": str(special_working_hours - days_of_absence),
                         "invoiceable_percentage": "{:.2f}".format(
                             float(times_data["invoiceable_duration"].replace(",", "."))
-                            / ((special_working_hours - days_of_absence) * 8)
+                            / denominator
+                            if denominator != 0
+                            else 0
                         ).replace(".", ","),
                         "overtime_hours": "{:.2f}".format(
                             float(times_data["total_duration"].replace(",", "."))
                             - (special_working_hours - days_of_absence) * 8
+                            if special_working_hours != days_of_absence
+                            else 0
                         ).replace(".", ","),
                     }
                 )
@@ -671,6 +753,9 @@ def get_teams():
 
     # Schreibe die Mitgliederinformationen in die CSV-Datei
     for member in members_info:
+        # Formatiere total_days mit Komma statt Punkt
+        total_days_formatted = str(member["total_days"]).replace(".", ",")
+
         writer.writerow(
             [
                 member["first_name"],
@@ -678,7 +763,7 @@ def get_teams():
                 member["total_duration"],
                 member["invoiceable_duration"],
                 member["non_invoiceable_duration"],
-                member["total_days"],
+                total_days_formatted,
                 member["invoiceable_percentage"],
                 member["overtime_hours"],
             ]
@@ -940,6 +1025,69 @@ def fetch_teamleader_data():
         username=username,
         initials=initials,
     )
+
+
+@app.route("/fetch-subjects")
+def fetch_subjects():
+    error_redirect = handle_token_refresh()
+    if error_redirect:
+        return error_redirect
+
+    access_token = session.get("access_token")
+    if not access_token:
+        return redirect(session.get("previous_url", "/"))
+
+    headers = {"Authorization": f"Bearer {access_token}"}
+
+    time_tracking_body = {
+        "filter": {
+            "user_id": session.get("userId"),
+            "started_after": "2025-01-01T00:00:01+02:00",
+            "ended_before": "2025-01-30T23:59:59+02:00",
+        },
+        "sort": [{"field": "starts_on"}],
+        "page": {"size": 100, "number": 1},
+    }
+
+    try:
+        time_tracking_response = requests.post(
+            "https://api.focus.teamleader.eu/timeTracking.list",
+            headers=headers,
+            json=time_tracking_body,
+        )
+        time_tracking_response.raise_for_status()
+
+        time_tracking_data = time_tracking_response.json()
+        teamleader_data = {"subjects": [], "work_types": []}
+
+        for entry in time_tracking_data.get("data", []):
+            if "subject" in entry:
+                teamleader_data["subjects"].append(entry["subject"])
+            if "work_type" in entry:
+                teamleader_data["work_types"].append(entry["work_type"])
+
+        # Entferne Duplikate basierend auf der ID
+        teamleader_data["subjects"] = [
+            dict(t) for t in {tuple(d.items()) for d in teamleader_data["subjects"]}
+        ]
+        teamleader_data["work_types"] = [
+            dict(t) for t in {tuple(d.items()) for d in teamleader_data["work_types"]}
+        ]
+
+        # Speichere die JSON-Datei im static/downloads Verzeichnis
+        json_path = os.path.join("app/static/downloads", "teamleader_data.json")
+        with open(json_path, "w", encoding="utf-8") as f:
+            json.dump(teamleader_data, f, indent=4)
+
+        return send_from_directory(
+            directory="static/downloads",
+            path="teamleader_data.json",
+            as_attachment=True,
+            mimetype="application/json; charset=utf-8",
+        )
+
+    except requests.exceptions.RequestException as e:
+        return jsonify({"error": str(e)}), 500
 
 
 @app.route("/clear-data", methods=["POST"])

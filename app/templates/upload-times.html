@@ -55,6 +55,12 @@
         <h3>CSV Datei hochladen</h3>
         <div class="box">
             <div class="file-upload-container">
+                <button class="upload-button" onclick="getmilestones()">
+                    <div class="tooltip">
+                        Milestones herunterladen
+                    </div>
+                    Milestones
+                </button>
                 <form id="uploadForm" action="/upload-times.html" method="post" enctype="multipart/form-data">
                     <input type="file" id="csvFile" name="csvFile" accept=".csv" onchange="submitForm()">
                 </form>
