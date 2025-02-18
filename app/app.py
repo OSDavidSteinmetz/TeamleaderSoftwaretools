@@ -216,19 +216,17 @@ def birthday():
 @app.route("/absence.html", methods=["POST", "GET"])
 def absence():
     try:
-        with open("app/static/data/code.json", "r", encoding="utf-8") as f:
-            tokens = json.load(f)
-        access_token = tokens["access_token"]
-        
         download_file()
         refresh_token_code() 
         upload_file()
+        with open("app/static/data/code.json", "r", encoding="utf-8") as f:
+            tokens = json.load(f)
+        access_token = tokens["access_token"]
 
     except Exception as e:
         error_redirect = handle_token_refresh()
         if error_redirect:
-            return error_redirect
-        
+            return error_redirect 
         access_token = session.get("access_token")
 
     username = session.get("username")
