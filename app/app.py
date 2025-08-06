@@ -35,7 +35,12 @@ from utils.teamleader_utils import (
     get_user_absence,
     refresh_teamleader_token,
 )
-from utils.technical_utils import download_file, refresh_token_code, upload_file
+from utils.technical_utils import (
+    download_file,
+    refresh_token_code,
+    update_flag_in_code_json,
+    upload_file,
+)
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -213,20 +218,219 @@ def birthday():
     )
 
 
-@app.route("/absence.html", methods=["POST", "GET"])
-def absence():
-    try:
-        download_file()
-        refresh_token_code() 
-        upload_file()
-        with open("app/static/data/code.json", "r", encoding="utf-8") as f:
-            tokens = json.load(f)
-        access_token = tokens["access_token"]
+@app.route("/emergency.html", methods=["GET"])
+def emergency():
+    max_attempts = 3
+    attempts = 0
+    access_token = None
+    
+    while attempts < max_attempts:
+        try:
+            download_file()
+            # Überprüfen, ob die Datei existiert
+            if not os.path.exists("app/static/data/code.json"):
+                raise FileNotFoundError("Die Datei code.json wurde nicht gefunden.")
 
-    except Exception as e:
+            # code.json auslesen und das Flag überprüfen
+            with open("app/static/data/code.json", "r", encoding="utf-8") as f:
+                tokens = json.load(f)
+
+            if tokens.get("flag") == True:
+                # Wenn das Flag auf True steht, 10 Sekunden warten und die Schleife fortsetzen
+                time.sleep(10)
+                attempts += 1
+                continue
+            else:
+                # Wenn das Flag auf False steht, kritischen Bereich mit try-finally absichern
+                try:
+                    # Flag auf True setzen
+                    update_flag_in_code_json(True)
+                    upload_file()
+                    
+                    try:
+                        # Kritischer Bereich, der geschützt werden soll
+                        refresh_token_code()
+                        with open("app/static/data/code.json", "r", encoding="utf-8") as f:
+                            tokens = json.load(f)
+                        access_token = tokens["access_token"]
+                        break  # Erfolgreich, Schleife verlassen
+                    finally:
+                        # Wird immer ausgeführt, auch bei Ausnahmen im try-Block
+                        update_flag_in_code_json(False)
+                        upload_file()
+                        
+                except Exception as inner_e:
+                    print(f"Fehler im kritischen Bereich: {inner_e}")
+                    # Wir sind hier, wenn ein Fehler beim Setzen/Zurücksetzen der Flag auftritt
+                    # Die Flag sollte bereits zurückgesetzt sein, wenn nicht, versuchen wir es noch einmal
+                    try:
+                        update_flag_in_code_json(False)
+                        upload_file()
+                    except:
+                        pass
+                    attempts += 1
+                    time.sleep(5)
+
+        except Exception as e:
+            print(f"Allgemeiner Fehler: {e}")
+            attempts += 1
+            if attempts >= max_attempts:
+                break
+            time.sleep(5)
+
+    # Wenn wir keinen Access-Token haben nach den Versuchen oder bei Fehler
+    if not access_token:
         error_redirect = handle_token_refresh()
         if error_redirect:
-            return error_redirect 
+            return error_redirect
+        access_token = session.get("access_token")
+
+    username = session.get("username")
+    initials = session.get("initials")
+
+    holidays = set(
+        [
+            "Neujahr",
+            "Heilige Drei Könige",
+            "Karfreitag",
+            "Ostermontag",
+            "Tag der Arbeit",
+            "Christi Himmelfahrt",
+            "Pfingstmontag",
+            "Fronleichnam",
+            "Mariä Himmelfahrt",
+            "Tag der Deutschen Einheit",
+            "Allerheiligen",
+            "Erster Weihnachtstag",
+            "Zweiter Weihnachtstag",
+        ]
+    )
+
+    # Heutiges Datum verwenden
+    date_requested = datetime.today().date()
+    startDate = date_requested - timedelta(days=1)
+    endDate = date_requested + timedelta(days=1)
+
+    week_dates = []
+    formatted_day = date_requested.strftime("%d.%m.%Y")
+    week_dates.append(formatted_day)
+
+    # Loading whitelist data from whitelist.json
+    with open("app/static/data/whitelist.json", "r", encoding="utf-8") as f:
+        whitelist = json.load(f)
+
+    # Prepare list for absences
+    absences_list = []
+
+    # Fetch absences for all users in whitelist
+    for user_info in whitelist:
+        name = user_info["employee"]
+
+        try:
+            absence_info = get_user_absence(
+                access_token, user_info["id"], startDate, endDate
+            )
+            absences_list.append(
+                {
+                    "name": name,
+                    "absence": absence_info,
+                }
+            )
+        except Exception as e:
+            # Bei Fehler für einzelnen User, trotzdem weitermachen
+            print(f"Fehler beim Abrufen der Abwesenheit für {name}: {e}")
+            absences_list.append(
+                {
+                    "name": name,
+                    "absence": ["Fehler beim Laden"],
+                }
+            )
+
+    # Sortiere die Liste alphabetisch nach Namen
+    absences_list.sort(key=lambda x: x["name"])
+
+    selected_date = date_requested.strftime("%Y-%m-%d")
+    day_of_week = date_requested.strftime("%A")
+
+    # Rendering the 'emergency.html' template and passing data
+    return render_template(
+        "emergency.html",
+        username=username,
+        initials=initials,
+        absences=absences_list,
+        today=selected_date,
+        day=day_of_week,
+        date=week_dates,
+        holidays=holidays,
+    )
+
+
+@app.route("/absence.html", methods=["POST", "GET"])
+def absence():
+    max_attempts = 3
+    attempts = 0
+    access_token = None
+    
+    while attempts < max_attempts:
+        try:
+            download_file()
+            # Überprüfen, ob die Datei existiert
+            if not os.path.exists("app/static/data/code.json"):
+                raise FileNotFoundError("Die Datei code.json wurde nicht gefunden.")
+
+            # code.json auslesen und das Flag überprüfen
+            with open("app/static/data/code.json", "r", encoding="utf-8") as f:
+                tokens = json.load(f)
+                print(tokens)
+
+            if tokens.get("flag") == True:
+                # Wenn das Flag auf True steht, 10 Sekunden warten und die Schleife fortsetzen
+                time.sleep(10)
+                attempts += 1
+                continue
+            else:
+                # Wenn das Flag auf False steht, kritischen Bereich mit try-finally absichern
+                try:
+                    # Flag auf True setzen
+                    update_flag_in_code_json(True)
+                    upload_file()
+                    
+                    try:
+                        # Kritischer Bereich, der geschützt werden soll
+                        refresh_token_code()
+                        with open("app/static/data/code.json", "r", encoding="utf-8") as f:
+                            tokens = json.load(f)
+                        access_token = tokens["access_token"]
+                        break  # Erfolgreich, Schleife verlassen
+                    finally:
+                        # Wird immer ausgeführt, auch bei Ausnahmen im try-Block
+                        update_flag_in_code_json(False)
+                        upload_file()
+                        
+                except Exception as inner_e:
+                    print(f"Fehler im kritischen Bereich: {inner_e}")
+                    # Wir sind hier, wenn ein Fehler beim Setzen/Zurücksetzen der Flag auftritt
+                    # Die Flag sollte bereits zurückgesetzt sein, wenn nicht, versuchen wir es noch einmal
+                    try:
+                        update_flag_in_code_json(False)
+                        upload_file()
+                    except:
+                        pass
+                    attempts += 1
+                    time.sleep(5)
+
+        except Exception as e:
+            print(f"Allgemeiner Fehler: {e}")
+            attempts += 1
+            if attempts >= max_attempts:
+                break
+            time.sleep(5)
+
+    # Wenn wir keinen Access-Token haben nach den Versuchen oder bei Fehler
+    if not access_token:
+        error_redirect = handle_token_refresh()
+        if error_redirect:
+            return error_redirect
         access_token = session.get("access_token")
 
     username = session.get("username")
@@ -311,34 +515,22 @@ def absence():
     # Dictionary für Team-Konfigurationen
     team_configs = {
         # Gesamtes Team Jörg K.
-        "635876ac-a7f0-0e02-ad5d-0190f3f32f2e": [
-            "f49c6b93-b930-044d-be5d-2e9a7a22bfad",
-            "0ed1261b-cde1-07af-ba56-315561d3082d",
-        ],
-        "f49c6b93-b930-044d-be5d-2e9a7a22bfad": [
-            "635876ac-a7f0-0e02-ad5d-0190f3f32f2e",
-            "0ed1261b-cde1-07af-ba56-315561d3082d",
-        ],
-        "0ed1261b-cde1-07af-ba56-315561d3082d": [
-            "635876ac-a7f0-0e02-ad5d-0190f3f32f2e",
-            "f49c6b93-b930-044d-be5d-2e9a7a22bfad",
-        ],
-        # Gesamtes Team Reinhold G.
-        "7f88fa5f-e174-061f-9e54-8b4586234146": [
-            "299434b4-47a5-026c-b059-42f32b9357f8"
-        ],
-        # Gesamtes Team Jannis S.
-        "6ded28b1-8987-0e20-b655-668170f2bfb5": [
-            "283a1bc2-beb1-00c8-be5c-4848566357f7"
-        ],
+        "635876ac-a7f0-0e02-ad5d-0190f3f32f2e": ["f49c6b93-b930-044d-be5d-2e9a7a22bfad",
+                                                 "0ed1261b-cde1-07af-ba56-315561d3082d"],
+        # Gesamtes Team Fabian H.                                                 
+        "f49c6b93-b930-044d-be5d-2e9a7a22bfad": ["635876ac-a7f0-0e02-ad5d-0190f3f32f2e",
+                                                 "0ed1261b-cde1-07af-ba56-315561d3082d"],
+        # Gesamtes Team Fabian M.
+        "0ed1261b-cde1-07af-ba56-315561d3082d": ["635876ac-a7f0-0e02-ad5d-0190f3f32f2e",
+                                                 "f49c6b93-b930-044d-be5d-2e9a7a22bfad"],
+        # Gesamtes Team Stephan S.
+        "a935254e-b5ce-0a6c-8558-916bd4f2bfba": ["33b56e06-2bd1-0034-a45b-53b91a737d1a"],
         # Gesamtes Team Fabian O.
-        "d1701b1c-0423-0f0a-8c5d-ff1c5a72bfaa": [
-            "974fca82-4ff9-0275-8052-1fde5f336fa5"
-        ],
-        # Gesamtes Team Tilmann R.
-        "473c86b8-3929-027c-9853-5a26f84342f5": [
-            "b8a1e30f-b21b-0526-b053-31f3de83625d"
-        ],
+        "d1701b1c-0423-0f0a-8c5d-ff1c5a72bfaa": ["974fca82-4ff9-0275-8052-1fde5f336fa5",
+                                                 "299434b4-47a5-026c-b059-42f32b9357f8"],
+        # Gesamtes Team Patrick W.
+        "1789bee0-ec3e-03f3-8058-ae1b14c36bf8": ["9c8ea525-e054-0a7c-9f5d-c087ba53750d",
+                                                 "e0eda744-94d3-0803-9d5f-de2700b2bfb8"],
     }
 
     for user_info in whitelist:
@@ -438,7 +630,6 @@ def absence():
         date=week_dates,
         holidays=holidays,
     )
-
 
 @app.route("/illness.html")
 def illness():

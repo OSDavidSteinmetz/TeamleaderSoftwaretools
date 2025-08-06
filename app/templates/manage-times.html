@@ -63,40 +63,46 @@
                         {% if team_id == "" %}
                         <option disabled selected hidden>Team auswählen</option>
                         {% endif %}
-                        {% if username == "Anja Rausch" or username == "Laura Boreatti" or username == "Patrick Wery" or username == "Jörg Knaust" or
+                        {% if username == "Anja Rausch" or username == "Laura Boreatti" or username == "Jörg Knaust" or
                         username == "David Steinmetz"%}
                         <optgroup label="Mitarbeiter">
-                            <option value="option15" id="-1">Alle Mitarbeiter</option>
-                            <option value="option16" id="-2">Alle Studenten</option>
+                            <option value="option17" id="-1">Alle Mitarbeiter</option>
+                            <option value="option18" id="-2">Alle Studenten</option>
                         </optgroup>
                         {% endif %}
                         <optgroup label="GF">
                             <option value="option1" id="a935254e-b5ce-0a6c-8558-916bd4f2bfba">René Ott</option>
                             <option value="option2" id="1789bee0-ec3e-03f3-8058-ae1b14c36bf8">Patrick Wéry</option>
+                            <option value="option3" id="e0eda744-94d3-0803-9d5f-de2700b2bfb8">Daniel Rösch</option>
                         </optgroup>
-                        <optgroup label="HR">
-                            <option value="option3" id="a0c7fd5a-2276-0f1c-a651-3b7780633631">Anja Rausch</option>
+                        <optgroup label="HR / Operations">
+                            <option value="option4" id="1789bee0-ec3e-03f3-8058-ae1b14c36bf8">Maria Gebhardt</option>
+                        </optgroup>
+                        <optgroup label="Marketing">
+                            <option value="option5" id="1789bee0-ec3e-03f3-8058-ae1b14c36bf8">Marco Vatter</option>
                         </optgroup>
                         <optgroup label="Development">
-                            <option value="option4" id="635876ac-a7f0-0e02-ad5d-0190f3f32f2e">Jörg Knaust</option>
-                            <option value="option5" id="f49c6b93-b930-044d-be5d-2e9a7a22bfad">Fabian Hemberger</option>
-                            <option value="option6" id="0ed1261b-cde1-07af-ba56-315561d3082d">Fabian Margraf</option>
+                            <option value="option6" id="635876ac-a7f0-0e02-ad5d-0190f3f32f2e">Jörg Knaust</option>
+                            <option value="option7" id="f49c6b93-b930-044d-be5d-2e9a7a22bfad">Fabian Hemberger</option>
+                            <option value="option8" id="0ed1261b-cde1-07af-ba56-315561d3082d">Fabian Margraf</option>
                         </optgroup>
-                        <optgroup label="Consulting SAP MM/SD">
-                            <option value="option7" id="d1701b1c-0423-0f0a-8c5d-ff1c5a72bfaa">Fabian Ott</option>
-                            <option value="option8" id="974fca82-4ff9-0275-8052-1fde5f336fa5">Marwin Schreiber</option>
+                        <optgroup label="Consulting SAP Core ERP">
+                            <option value="option9" id="d1701b1c-0423-0f0a-8c5d-ff1c5a72bfaa">Fabian Ott</option>
+                            <option value="option10" id="974fca82-4ff9-0275-8052-1fde5f336fa5">Marwin Schreiber</option>
                         </optgroup>
-                        <optgroup label="Consulting SAP Retail">
-                            <option value="option9" id="6ded28b1-8987-0e20-b655-668170f2bfb5">Jannis Schuhmann</option>
-                            <option value="option10" id="283a1bc2-beb1-00c8-be5c-4848566357f7">Felix Schmidt</option>
+                        <optgroup label="Consulting SAP Retail & Wholesale">
+                            <option value="option11" id="6ded28b1-8987-0e20-b655-668170f2bfb5">Jannis Schuhmann</option>
+                            <option value="option12" id="6ded28b1-8987-0e20-b655-668170f2bfb5">Felix Schmidt</option>
                         </optgroup>
                         <optgroup label="Consulting EWM/TM">
-                            <option value="option11" id="7f88fa5f-e174-061f-9e54-8b4586234146">Reinhold Gieß</option>
-                            <option value="option12" id="299434b4-47a5-026c-b059-42f32b9357f8">Leonhard Hoffmann</option>
+                            <option value="option13" id="299434b4-47a5-026c-b059-42f32b9357f8">Leonhard Hoffmann</option>
                         </optgroup>
                         <optgroup label="KI">
-                            <option value="option13" id="473c86b8-3929-027c-9853-5a26f84342f5">Tilmann Richl</option>
-                            <option value="option14" id="b8a1e30f-b21b-0526-b053-31f3de83625d">Felix Langer</option>
+                            <option value="option14" id="a935254e-b5ce-0a6c-8558-916bd4f2bfba">Stephan Schulte</option>
+                        </optgroup>
+                        <optgroup label="Projektmanagement">
+                            <option value="option15" id="d976c6a9-057e-0dc2-8a59-21f4b71379b0">Ramona Dittmaier</option>
+                            <option value="option16" id="1789bee0-ec3e-03f3-8058-ae1b14c36bf8">Thomas Bunnemann</option>
                         </optgroup>
                         {% if team_id != "" %}
                         <option selected hidden value="{{ selectedOption }}" id="{{ team_id }}">{{ team_name }}</option>

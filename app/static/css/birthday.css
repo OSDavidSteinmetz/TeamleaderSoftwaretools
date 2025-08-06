@@ -308,10 +308,6 @@ button:disabled:hover img {
     justify-content: flex-start;
 }
 
-.card:hover {
-    transform: scale(1.05);
-}
-
 .card span {
     display: block;
     font-size: 16px;

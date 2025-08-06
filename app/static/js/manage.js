@@ -99,16 +99,24 @@ function calculateDates(monthValue, selectedId) {
         endDate.setMonth(endDate.getMonth() + 1);
     }
 
+    // firstBlockDate um einen Tag nach vorne schieben
+    const adjustedFirstBlockDate = new Date(firstBlockDate);
+    adjustedFirstBlockDate.setDate(adjustedFirstBlockDate.getDate() - 1);
+
     const dates = {
-        first_tmstmp: formatDate(firstBlockDate),
+        first_tmstmp: formatDate(adjustedFirstBlockDate),
         second_tmstmp: formatDate(secondBlockDate),
         third_tmstmp: formatDate(thirdBlockDate),
         end_tmstmp: formatDate(endDate)
     };
 
+    dates.end_tmstmp = dates.end_tmstmp.replace(/T23:59:00/, 'T00:00:00');
+    
     if (selectedId === "-2") {
     } else if ([0, 2, 4, 6, 7, 9, 11].includes(firstBlockDate.getMonth())) {
-        dates.fourth_tmstmp = formatDate(new Date(monthValue + "-31T23:59:00+02:00"));
+        // Auch hier 00:00:00 Uhr verwenden statt 23:59:00
+        const lastDayOfMonth = new Date(monthValue + "-31T00:00:00+02:00");
+        dates.fourth_tmstmp = formatDate(lastDayOfMonth);
     }
 
     return dates;

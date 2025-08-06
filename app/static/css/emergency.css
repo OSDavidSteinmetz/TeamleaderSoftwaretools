@@ -1,0 +1,410 @@
+/* ==========================================================================
+   GLOBAL STYLES
+   ========================================================================== */
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* ==========================================================================
+   HEADER STYLES
+   ========================================================================== */
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+header img {
+    margin-right: 10px;
+}
+
+header h1 {
+    font-size: 20px;
+    margin: 0;
+    color: #333;
+}
+
+header .left-container {
+    display: flex;
+    align-items: center;
+}
+
+header .right-container {
+    display: flex;
+    align-items: center;
+}
+
+/* ==========================================================================
+   BUTTON STYLES
+   ========================================================================== */
+
+.ticket-button, .logout-button, .login-button {
+    border: none;
+    padding: 10px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    display: flex;
+    margin-right: 1rem;
+}
+
+.logout-button {
+    background-color: #de8787;
+    color: white;
+}
+
+.logout-button:hover {
+    background-color: #d47c75;
+}
+
+.login-button {
+    background-color: #87dfb9;
+    color: white;
+}
+
+.login-button:hover {
+    background-color: #7dd4a7;
+}
+
+/* ==========================================================================
+   AVATAR STYLES
+   ========================================================================== */
+
+.avatar-initials {
+    margin-right: 1rem;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    line-height: 40px;
+    text-align: center;
+    color: white;
+    background-color: #6598a7;
+    font-size: 20px;
+}
+
+/* ==========================================================================
+   CONTENT LAYOUT
+   ========================================================================== */
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    padding-bottom: 2rem;
+    flex-grow: 1;
+    overflow: auto;
+}
+
+.box-container {
+    width: 100%;
+    max-width: 1700px;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.box {
+    background-color: #e0e0e0;
+    padding: 20px;
+    text-align: center;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333;
+}
+
+/* ==========================================================================
+   EMERGENCY SECTION STYLES
+   ========================================================================== */
+
+.emergency-header {
+    background-color: #dc3545;
+    color: white;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.emergency-date {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: bold;
+    border: 2px solid #dc3545;
+}
+
+/* ==========================================================================
+   CALENDAR AND STATUS STYLES
+   ========================================================================== */
+
+.calendar {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.day {
+    width: 100%;
+    max-width: 1400px;
+    background-color: #f2f2f2;
+    border: 1px solid #d1d1d1;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: left;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.3s;
+    column-count: 3;
+    column-gap: 25px;
+    column-fill: balance;
+}
+
+.status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    padding: 3px 0;
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+.status .name {
+    flex: 1;
+    margin-right: 8px;
+    font-size: 15px;
+    font-weight: normal;
+}
+
+.status .absence {
+    font-size: 15px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+/* ==========================================================================
+   ABSENCE STATUS COLORS
+   ========================================================================== */
+
+/* Weekend & Holidays */
+span[data-absence="WE"],
+span[data-absence="Feiertag"] {
+    color: #4abfc1;
+    font-weight: bold;
+}
+
+/* Sick Leave */
+span[data-absence="Krank"],
+span[data-absence="Krankheit"],
+span[data-absence="Kind Krank"] {
+    color: #d47c75;
+    font-weight: bold;
+}
+
+/* Office */
+span[data-absence="Office"] {
+    color: #bcbcbc;
+    font-weight: bold;
+}
+
+/* Home Office & Remote Work */
+span[data-absence="Home Office"],
+span[data-absence="Berufsschule/FH/Uni"],
+span[data-absence="Gleitzeit"],
+span[data-absence="Kurzarbeit"],
+span[data-absence="Workation"] {
+    color: #ffbc66;
+    font-weight: bold;
+}
+
+/* Vacation & Time Off */
+span[data-absence="✅ Urlaub"],
+span[data-absence="❌ Urlaub"],
+span[data-absence="✅ Resturlaub"],
+span[data-absence="❌ Resturlaub"],
+span[data-absence="✅ Sonderurlaub"],
+span[data-absence="❌ Sonderurlaub"],
+span[data-absence="✅ Unbezahlter Urlaub"],
+span[data-absence="❌ Unbezahlter Urlaub"],
+span[data-absence="✅ Urlaubsdokus_Studis"],
+span[data-absence="❌ Urlaubsdokus_Studis"],
+span[data-absence="Überstunden"],
+span[data-absence="Elternzeit"],
+span[data-absence="Mutterschutz"],
+span[data-absence="Resturlaub 2024"],
+span[data-absence="Freier Tag"] {
+    color: #8794df;
+    font-weight: bold;
+}
+
+/* ==========================================================================
+   ERROR MESSAGES
+   ========================================================================== */
+
+.error-message {
+    color: red;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* ==========================================================================
+   PRINT STYLES
+   ========================================================================== */
+
+@media print {
+    /* Hide everything except box-container */
+    body * {
+        visibility: hidden;
+    }
+
+    .box-container, .box-container * {
+        visibility: visible;
+    }
+
+    /* Position box-container for print */
+    .box-container {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 95% !important;
+        margin: 0 !important;
+        padding: 20px !important;
+        box-shadow: none !important;
+    }
+
+    /* Keep original colors for print */
+    .emergency-header {
+        background-color: #dc3545 !important;
+        color: white !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+        font-size: 16px !important;
+        padding: 10px !important;
+    }
+
+    .emergency-date {
+        background-color: #f8f9fa !important;
+        border: 2px solid #dc3545 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+        font-size: 14px !important;
+        padding: 8px !important;
+    }
+
+    /* Preserve absence status colors in print */
+    span[data-absence="WE"],
+    span[data-absence="Feiertag"] {
+        color: #4abfc1 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+
+    span[data-absence="Krank"],
+    span[data-absence="Krankheit"],
+    span[data-absence="Kind Krank"] {
+        color: #d47c75 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+
+    span[data-absence="Office"] {
+        color: #bcbcbc !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+
+    span[data-absence="Home Office"],
+    span[data-absence="Berufsschule/FH/Uni"],
+    span[data-absence="Gleitzeit"],
+    span[data-absence="Kurzarbeit"],
+    span[data-absence="Workation"] {
+        color: #ffbc66 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+
+    span[data-absence="✅ Urlaub"],
+    span[data-absence="❌ Urlaub"],
+    span[data-absence="✅ Resturlaub"],
+    span[data-absence="❌ Resturlaub"],
+    span[data-absence="✅ Sonderurlaub"],
+    span[data-absence="❌ Sonderurlaub"],
+    span[data-absence="✅ Unbezahlter Urlaub"],
+    span[data-absence="❌ Unbezahlter Urlaub"],
+    span[data-absence="✅ Urlaubsdokus_Studis"],
+    span[data-absence="❌ Urlaubsdokus_Studis"],
+    span[data-absence="Überstunden"],
+    span[data-absence="Elternzeit"],
+    span[data-absence="Mutterschutz"],
+    span[data-absence="Resturlaub 2024"],
+    span[data-absence="Freier Tag"] {
+        color: #8794df !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+
+    /* Remove unnecessary spacing */
+    .content {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Ensure all absences are visible */
+    .calendar {
+        page-break-inside: avoid;
+    }
+
+    .status {
+        page-break-inside: avoid;
+    }
+
+    /* Optimize 3-column layout for print */
+    .day {
+        column-count: 3 !important;
+        column-gap: 20px !important;
+        column-fill: balance !important;
+    }
+
+    /* Smaller font sizes for print to fit more content */
+    .status .name {
+        font-size: 12px !important;
+    }
+
+    .status .absence {
+        font-size: 10px !important;
+    }
+}

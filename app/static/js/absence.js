@@ -73,11 +73,15 @@ function checkAbsenceForDate() {
     const loader = document.getElementById('loader');
     const table = document.getElementById('calendar');
     const confirmButton = document.getElementById('confirmbutton');
+    const backButton = document.getElementById('backward-button');
+    const forwardButton = document.getElementById('forward-button');
     const dateInput = document.getElementById("date");
 
     loader.className = "loading";
     table.className = 'hidden';
     confirmButton.disabled = true;
+    backButton.disabled = true;
+    forwardButton.disabled = true;
 
     fetch('/absence.html', {
         method: 'POST',
@@ -109,6 +113,8 @@ function checkAbsenceForDate() {
         // Optional: Ladeanimation beenden, falls benötigt
         loader.className = "loaded";
         confirmButton.disabled = false;
+        backButton.disabled = false;
+        forwardButton.disabled = false;
     })
     .catch(error => {
         loader.className = "loaded";

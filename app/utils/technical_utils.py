@@ -32,14 +32,12 @@ def create_ssh_client(server, port, user, password):
 
 
 def download_file():
-    """Download a file from the remote server and create a copy as token.json."""
     # Stelle sicher, dass das Verzeichnis existiert
     static_data_dir = os.path.join("app", "static", "data")
     os.makedirs(static_data_dir, exist_ok=True)
-    
+
     # Definiere die lokalen Pfade
     code_file = os.path.join(static_data_dir, "code.json")
-    token_file = os.path.join(static_data_dir, "token.json")
 
     print("Connecting to the server...")
     ssh_client = create_ssh_client(SERVER, PORT, USERNAME, PASSWORD)
@@ -48,20 +46,7 @@ def download_file():
         with SCPClient(ssh_client.get_transport()) as scp:
             scp.get(REMOTE_FILE, code_file)
         print(f"File successfully downloaded to {code_file}")
-        
-        # Lese den Inhalt der code.json
-        try:
-            with open(code_file, 'r') as source_file:
-                token_data = json.load(source_file)
-            
-            # Speichere den Inhalt in token.json
-            with open(token_file, 'w') as target_file:
-                json.dump(token_data, target_file, indent=4)
-            print(f"Token data successfully copied to {token_file}")
-            
-        except Exception as e:
-            print(f"Error copying to token.json: {e}")
-            
+
     except Exception as e:
         print(f"Error during file download: {e}")
     finally:
@@ -72,7 +57,7 @@ def log_error(message):
     log_dir = os.path.dirname(STATIC_DATA_DIR)
     log_file_path = os.path.join(log_dir, "errors.log")
     os.makedirs(log_dir, exist_ok=True)
-    
+
     with open(log_file_path, "a") as log_file:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         log_file.write(f"{timestamp} - {message}\n")
@@ -93,7 +78,7 @@ def save_tokens(access_token, refresh_token):
     try:
         # Ensure directory exists
         os.makedirs(os.path.dirname("app/static/data/code.json"), exist_ok=True)
-        
+
         with open("app/static/data/code.json", "w") as file:
             json.dump({
                 "access_token": access_token,
@@ -155,3 +140,21 @@ def upload_file():
         print(f"Error during file upload: {e}")
     finally:
         ssh_client.close()
+
+
+def update_flag_in_code_json(flag_value):
+    """Liest die code.json-Datei ein, setzt das Flag und speichert sie."""
+    if os.path.exists("app/static/data/code.json"):
+        with open("app/static/data/code.json", "r", encoding="utf-8") as file:
+            data = json.load(file)
+    else:
+        data = {}  # Falls die Datei nicht existiert, ein leeres Dict verwenden
+
+    # Flag setzen
+    data["flag"] = flag_value
+
+    # Datei überschreiben
+    with open("app/static/data/code.json", "w", encoding="utf-8") as file:
+        json.dump(data, file, indent=4, ensure_ascii=False)
+
+    print(f"Flag in code.json wurde auf {flag_value} gesetzt.")

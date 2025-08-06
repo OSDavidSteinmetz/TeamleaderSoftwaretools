@@ -69,7 +69,7 @@
             </div>
             {% endif %}
             {% if absence %}
-            <div class="box">
+            <div class="box" id="absence-link">
                 <a href="absence.html">
                     <img src="{{ url_for('static', filename='assets/absence.png') }}" alt="Absence Icon">
                     Abwesenheiten einsehen
@@ -98,6 +98,14 @@
                 <a href="projects.html">
                     <img src="{{ url_for('static', filename='assets/project.png') }}" alt="Project Icon">
                     Projektübersicht
+                </a>
+            </div>
+            {% endif %}
+            {% if username == "David Steinmetz" or username == "Leonie Gebhardt" or username == "Maria Gebhardt" %}
+            <div class="box">
+                <a href="emergency.html">
+                    <img src="{{ url_for('static', filename='assets/exit.png') }}" alt="Emergency Icon">
+                    Notfallliste
                 </a>
             </div>
             {% endif %}

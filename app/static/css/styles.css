@@ -79,6 +79,15 @@ header .right-container {
   /* Needed for the ribbon positioning */
 }
 
+.box.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.box.disabled a {
+  pointer-events: none;
+}
+
 .box:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
