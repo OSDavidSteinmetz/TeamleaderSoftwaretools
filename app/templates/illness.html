@@ -79,11 +79,6 @@
                     </button>
                 </div>
             </div>
-            {% if year_flag %}
-            <div class="year-info">
-                <p>Jahresansicht: {{ today[:4] }}</p>
-            </div>
-            {% endif %}
             <div class="box-content" id="box-content">
                 <div id="loader" class="{% if illness %}loaded{% else %}loaded{% endif %}">
                     <span class="loader"></span>

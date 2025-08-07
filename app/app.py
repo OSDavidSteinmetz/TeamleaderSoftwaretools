@@ -830,7 +830,6 @@ def illness():
         username=username,
         initials=initials,
         today=currentMonth,
-        year_flag=False,
     )
 
 
@@ -941,12 +940,10 @@ def get_illness_days():
             # Wenn year_flag gesetzt ist, setze den Start- und End-Datum auf das gesamte Jahr
             start_year = f"{current_date.year}-01-01"
             end_year = f"{current_date.year}-12-31"
-            print(start_year, end_year)
             days = get_number_of_illness_days(
                 access_token, employee["id"], start_year, end_year
             )
         else:
-            print(start_date, end_date)
             days = get_number_of_illness_days(
                 access_token, employee["id"], start_date, end_date
             )
@@ -972,7 +969,6 @@ def get_illness_days():
             initials=initials,
             today=currentMonth,
             illness=illness_table,
-            year_flag=year_flag,
         )
     else:
         return render_template(
