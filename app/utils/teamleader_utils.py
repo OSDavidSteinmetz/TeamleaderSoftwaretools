@@ -123,6 +123,16 @@ def get_all_users(access_token: str) -> Optional[List[Dict[str, Any]]]:
                 "id": user["id"],
                 "team_id": user["teams"][0]["id"] if user["teams"] else None,
                 "role": user["function"],
+                "working_hours": 40,
+                "holidays": 30,
+                "upload_times": False,
+                "manage_times": False,
+                "absence": True,
+                "illness": False,
+                "birthday": False,
+                "vacations": False,
+                "emergency": False,
+                "authorizations": False,
             }
             for user in data
         ]
@@ -140,13 +150,15 @@ def get_all_users(access_token: str) -> Optional[List[Dict[str, Any]]]:
             if whitelist_entry:
                 user.update(
                     {
-                        "working_hours": whitelist_entry.get("working_hours", 0),
+                        "working_hours": whitelist_entry.get("working_hours", 40),
+                        "holidays": whitelist_entry.get("holidays", 30),
                         "upload_times": whitelist_entry.get("upload_times", "false"),
                         "manage_times": whitelist_entry.get("manage_times", "false"),
                         "absence": whitelist_entry.get("absence", "false"),
                         "illness": whitelist_entry.get("illness", "false"),
                         "birthday": whitelist_entry.get("birthday", "false"),
-                        "projects": whitelist_entry.get("projects", "false"),
+                        "vacations": whitelist_entry.get("vacations", "false"),
+                        "emergency": whitelist_entry.get("emergency", "false"),
                         "authorizations": whitelist_entry.get(
                             "authorizations", "false"
                         ),
@@ -480,7 +492,7 @@ def get_special_working_hours(member_id: str, workdays_count: int) -> int:
 
 
 def get_number_of_absence_days(
-        access_token: str, member_id: str, start_date: str, end_date: str
+    access_token: str, member_id: str, start_date: str, end_date: str
 ) -> float:
     """
     Berechnet die Anzahl der Abwesenheitstage für einen Benutzer in einem bestimmten Zeitraum,
@@ -516,22 +528,22 @@ def get_number_of_absence_days(
             item["id"]
             for item in day_off_types
             if item["type"]
-               in [
-                   "Urlaub",
-                   "Krankheit",
-                   "Berufsschule/FH/Uni",
-                   "Elternzeit",
-                   "Kind krank",
-                   "Überstunden",
-                   "Mutterschutz",
-                   "Kurzarbeit",
-                   "Resturlaub",
-                   "Resturlaub 2024",
-                   "Sonderurlaub",
-                   "Unbezahlter Urlaub",
-                   "Urlaubsdoku_Studis",
-                   "Gleitzeit"
-               ]
+            in [
+                "Urlaub",
+                "Krankheit",
+                "Berufsschule/FH/Uni",
+                "Elternzeit",
+                "Kind krank",
+                "Überstunden",
+                "Mutterschutz",
+                "Kurzarbeit",
+                "Resturlaub",
+                "Resturlaub 2024",
+                "Sonderurlaub",
+                "Unbezahlter Urlaub",
+                "Urlaubsdoku_Studis",
+                "Gleitzeit",
+            ]
         ]
 
         # Konvertiere start_date und end_date zu datetime-Objekten
@@ -556,13 +568,13 @@ def get_number_of_absence_days(
                     item_start = datetime.strptime(
                         item["starts_at"], "%Y-%m-%dT%H:%M:%S%z"
                     )
-                    item_end = datetime.strptime(
-                        item["ends_at"], "%Y-%m-%dT%H:%M:%S%z"
-                    )
+                    item_end = datetime.strptime(item["ends_at"], "%Y-%m-%dT%H:%M:%S%z")
 
                     # Prüfe ob der aktuelle Tag betroffen ist
-                    if (item_start.date() <= current_date.date() <= item_end.date()
-                            and item["leave_type"]["id"] in relevant_ids):
+                    if (
+                        item_start.date() <= current_date.date() <= item_end.date()
+                        and item["leave_type"]["id"] in relevant_ids
+                    ):
                         # Berechne die Stunden der Abwesenheit
                         duration = item_end - item_start
                         hours = duration.total_seconds() / 3600
@@ -603,6 +615,7 @@ def get_number_of_illness_days(
     body = {
         "id": member_id,
         "filter": {"starts_after": start_date, "ends_before": end_date},
+        "page": {"size": 100, "number": 1},
     }
 
     try:
@@ -644,6 +657,58 @@ def get_number_of_illness_days(
             current_date += timedelta(days=1)
 
         return sickness_days
+
+    except requests.RequestException as e:
+        print(f"HTTP-Fehler aufgetreten: {e}")
+        return 0
+    except Exception as e:
+        print(f"Ein Fehler ist aufgetreten: {e}")
+        return 0
+
+
+def get_number_of_vacation_days(
+    access_token: str, member_id: str, start_date: str, end_date: str
+) -> int:
+    """
+    Berechnet die Anzahl der Krankheitstage für einen Benutzer in einem bestimmten Zeitraum.
+
+    Args:
+        access_token (str): Das Access-Token für die Teamleader-API.
+        member_id (str): Die ID des Benutzers.
+        start_date (str): Das Startdatum des Zeitraums.
+        end_date (str): Das Enddatum des Zeitraums.
+
+    Returns:
+        int: Die Anzahl der Krankheitstage.
+    """
+    headers = {"Authorization": f"Bearer {access_token}"}
+    body = {
+        "id": member_id,
+        "filter": {"starts_after": start_date, "ends_before": end_date},
+        "page": {"size": 100, "number": 1},
+    }
+
+    try:
+        response = requests.post(
+            f"{TEAMLEADER_API_BASE_URL}/users.listDaysOff", headers=headers, json=body
+        )
+        response.raise_for_status()
+        data = response.json()
+
+        # Lade die IDs für den Abwesenheitstyp "Urlaub"
+        with open("app/static/data/day_off_type.json", "r", encoding="utf-8") as f:
+            day_off_types = json.load(f)
+
+        vacation_ids = [
+            item["id"] for item in day_off_types if item["type"] == "Urlaub"
+        ]
+
+        vacation_days = 0
+        for item in data["data"]:
+            if item["leave_type"]["id"] in vacation_ids:
+                vacation_days += 1
+                # break entfernt - damit alle Urlaubstage gezählt werden
+        return vacation_days
 
     except requests.RequestException as e:
         print(f"HTTP-Fehler aufgetreten: {e}")
@@ -855,7 +920,7 @@ def get_contact_info(access_token: str):
         # Sortiere alle Geburtstage nach dem Abstand zum heutigen Tag
         all_birthdays.sort(key=lambda x: abs(x["days_until_birthday"]))
 
-        # Wähle die 5 nächsten vergangenen, heutigen und zukünftigen Geburtstage aus
+        # Wähle die Geburtstage basierend auf dem neuen Zeitrahmen aus
         for birthday in all_birthdays:
             if -7 <= birthday["days_until_birthday"] < 0 and len(past_birthdays) < 7:
                 status = (
@@ -875,20 +940,22 @@ def get_contact_info(access_token: str):
                 today_birthdays.append(
                     {"name": birthday["name"], "age": birthday["age"]}
                 )
-            elif 0 < birthday["days_until_birthday"] <= 7 and len(future_birthdays) < 7:
+            elif (
+                0 < birthday["days_until_birthday"] <= 30 and len(future_birthdays) < 30
+            ):
                 if birthday["days_until_birthday"] == 1:
                     status = "morgen"
                 elif birthday["days_until_birthday"] == 7:
                     status = "in einer Woche"
-                elif birthday["days_until_birthday"] == -1:
-                    status = "gestern"
-                elif birthday["days_until_birthday"] == -7:
-                    status = "vor einer Woche"
+                elif birthday["days_until_birthday"] == 14:
+                    status = "in zwei Wochen"
+                elif birthday["days_until_birthday"] == 21:
+                    status = "in drei Wochen"
+                elif birthday["days_until_birthday"] == 28:
+                    status = "in vier Wochen"
                 else:
-                    if birthday["days_until_birthday"] > 0:
-                        status = f"in {birthday['days_until_birthday']} Tagen"
-                    else:
-                        status = f"vor {abs(birthday['days_until_birthday'])} Tagen"
+                    status = f"in {birthday['days_until_birthday']} Tagen"
+
                 future_birthdays.append(
                     {
                         "name": birthday["name"],

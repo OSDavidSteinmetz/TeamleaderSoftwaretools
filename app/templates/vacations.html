@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teamleader Softwaretools</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/illness.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='assets/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/vacations.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/breadcrumbs.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bugreport.css') }}">
-    <link rel="icon" href="{{ url_for('static', filename='assets/favicon.ico') }}" type="image/x-icon">
 </head>
 
 <body>
@@ -41,7 +41,6 @@
     <!-- Breadcrumb Navigation -->
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <!-- Beispiel für Home Icon -->
             <li class="breadcrumb-item">
                 <a href="/" class="breadcrumb-link">
                     <img src="/static/assets/home.svg" class="breadcrumb-icon" alt="Home Icon" width="16" height="16">
@@ -50,7 +49,7 @@
             </li>
             <li class="breadcrumb-item active">
                 <img src="/static/assets/chevron.svg" class="breadcrumb-spacer" alt="Home Icon" width="16" height="16">
-                Krankheitsstunden einsehen
+                Urlaubsübersicht
             </li>
         </ol>
     </nav>
@@ -58,53 +57,35 @@
         <div class="box-container">
             <div class="box">
                 <div class="teamleader-users-container">
-                    <button type="button" class="confirm-button" id="yearbutton" onclick="checkAbsenceForYear()">
-                        Jahresansicht
-                    </button>
-                    <button type="button" class="backward-button" onclick="setDateBackward()">
-                        <img src="{{ url_for('static', filename='assets/chevron.svg') }}" alt="" width="32">
-                    </button>
-                    <input type="month" id="date" name="date" class="date-input" value="{{ today }}">
-                    <button type="button" class="forward-button" onclick="setDateForward()">
-                        <img src="{{ url_for('static', filename='assets/chevron.svg') }}" alt="" width="32">
-                    </button>
-                    <button type="button" class="confirm-button" id="confirmbutton" onclick="checkAbsenceForDate()">
-                        Bestätigen
-                    </button>
-                    <button class="download-button" id="download-button" onclick="downloadCSV()" disabled>
-                        <div class="tooltip">
-                            Krankheitsübersicht herunterladen
-                        </div>
-                        <img src="{{ url_for('static', filename='assets/download.png') }}" alt="Upload Icon">
-                    </button>
+                    <div class="vacations-header">
+                        Urlaubsübersicht {{ year }}
+                    </div>
                 </div>
             </div>
-            {% if year_flag %}
-            <div class="year-info">
-                <p>Jahresansicht: {{ today[:4] }}</p>
-            </div>
-            {% endif %}
             <div class="box-content" id="box-content">
-                <div id="loader" class="{% if illness %}loaded{% else %}loaded{% endif %}">
-                    <span class="loader"></span>
-                </div>
                 {% if error_message %}
                 <p class="error-message" id="error-message">{{ error_message }}</p>
                 {% endif %}
-                <table id="membersTable" class="{% if illness %}visible{% else %}hidden{% endif %}">
+                <table id="membersTable" class="{% if vacations %}visible{% else %}hidden{% endif %}">
                     <thead>
                         <tr>
                             <th>Mitarbeiter</th>
-                            <th>Krankheitstage</th>
-                            <th>Fehlstunden</th>
+                            <th class="sortable" onclick="sortTable(1)" data-column="1">
+                                Gebuchte Urlaubstage
+                                <span class="sort-indicator" id="sort-indicator-1"></span>
+                            </th>
+                            <th class="sortable" onclick="sortTable(2)" data-column="2">
+                                Verbleibende Urlaubstage
+                                <span class="sort-indicator" id="sort-indicator-2"></span>
+                            </th>
                         </tr>
                     </thead>
                     <tbody id="membersTableBody">
-                        {% for member in illness %}
+                        {% for employee in vacations %}
                         <tr>
-                            <td>{{ member.employee }}</td>
-                            <td class="times">{{ member.days }}</td>
-                            <td class="times">{{ member.hours }}</td>
+                            <td>{{ employee.employee }}</td>
+                            <td class="times">{{ employee.used_holidays }}</td>
+                            <td class="times">{{ employee.remaining_holidays }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -129,10 +110,9 @@
         </form>
     </div>
     <div id="message-container"></div>
-    <!-- Separate JavaScript file -->
-    <script src="{{ url_for('static', filename='js/bugreport.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/illness.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/vacations.js') }}"></script>
     <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bugreport.js') }}"></script>
 </body>
 
 </html>

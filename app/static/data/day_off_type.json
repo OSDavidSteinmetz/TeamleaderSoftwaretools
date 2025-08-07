@@ -1,274 +1,290 @@
 [
-    {
-        "id": "1357e2cc-bf79-08d0-8853-ff498812ffd0",
-        "type": "Überstunden"
-    },
-    {
-        "id": "3dedf693-e3b1-03c2-b756-305435121b96",
-        "type": "Berufsschule/FH/Uni"
-    },
-    {
-        "id": "cfcc0306-f510-053f-bb50-bf3edfc225da",
-        "type": "Berufsschule/FH/Uni"
-    },
-    {
-        "id": "f857d4ec-e170-0108-b55b-1992ada3162d",
-        "type": "Berufsschule/FH/Uni"
-    },
-    {
-        "id": "16ff1d85-4228-0593-a45b-e30013c3245c",
-        "type": "Berufsschule/FH/Uni"
-    },
-    {
-        "id": "bbb15091-7b30-0e1e-a05a-0063bbb3379d",
-        "type": "Berufsschule/FH/Uni"
-    },
-    {
-        "id": "e368ee67-ad50-0618-a150-0f518313489d",
-        "type": "Berufsschule/FH/Uni"
-    },
-    {
-        "id": "5b0c6c18-d28b-0c6c-b35e-80024d1355f2",
-        "type": "Berufsschule/FH/Uni"
-    },
-    {
-        "id": "14f2aaca-d1c3-05b0-b559-dd81cf3363c7",
-        "type": "Berufsschule/FH/Uni"
-    },
-    {
-        "id": "eaec65a2-ea29-0459-b75f-a4b08c033dc9",
-        "type": "Elternzeit"
-    },
-    {
-        "id": "86165c1a-3a83-0f09-bb5f-0b34ff6355f4",
-        "type": "Elternzeit"
-    },
-    {
-        "id": "b2b6a78f-d5c1-0bce-865d-ac23f36362a2",
-        "type": "Elternzeit"
-    },
-    {
-        "id": "1843cddf-683c-0467-8853-bdce5b93637d",
-        "type": "Elternzeit"
-    },
-    {
-        "id": "97582cf4-e4fe-0732-905d-cb88dd335f4a",
-        "type": "Freier Tag"
-    },
-    {
-        "id": "0dfa9172-a844-0304-9955-60f1e48362a5",
-        "type": "Freier Tag"
-    },
-    {
-        "id": "7d815c4e-c0f5-0dca-8f5e-a49888433a87",
-        "type": "Gleitzeit"
-    },
-    {
-        "id": "4068ff51-c35d-03ad-b353-dd43dfe343ae",
-        "type": "Gleitzeit"
-    },
-    {
-        "id": "fe81eff6-dfe5-03f0-8f55-ab275a535603",
-        "type": "Gleitzeit"
-    },
-    {
-        "id": "0f2d8d93-a81f-02f5-9f5f-ddd863d362a1",
-        "type": "Gleitzeit"
-    },
-    {
-        "id": "904b1313-8860-0696-9551-5bda396363f8",
-        "type": "Gleitzeit"
-    },
-    {
-        "id": "bf73e71a-1fd4-09a8-a55c-b7395b03489b",
-        "type": "Home Office"
-    },
-    {
-        "id": "b3b97212-af72-0165-9851-07a016221f33",
-        "type": "Home Office"
-    },
-    {
-        "id": "dc4b0ea9-f243-0ad1-bb5b-5049a9d225db",
-        "type": "Home Office"
-    },
-    {
-        "id": "b6415171-df02-0660-ba5f-951f2a130f79",
-        "type": "Home Office"
-    },
-    {
-        "id": "5b0c9041-c530-0c3b-8956-a70280b3247e",
-        "type": "Home Office"
-    },
-    {
-        "id": "8af924cc-2b1f-05dc-a85e-e235fd0334a0",
-        "type": "Home Office"
-    },
-    {
-        "id": "814c3873-97f8-07b3-855a-13841ff355f0",
-        "type": "Home Office"
-    },
-    {
-        "id": "89029b22-a488-0b5a-8552-cb72eff3629f",
-        "type": "Home Office"
-    },
-    {
-        "id": "ed462b3b-8552-0ca5-9e5e-e894ec834649",
-        "type": "Kind krank"
-    },
-    {
-        "id": "673f7b54-0f31-01dd-a655-8a683573489c",
-        "type": "Kind krank"
-    },
-    {
-        "id": "43853e6c-cd7c-0982-805d-86c2060355f1",
-        "type": "Kind krank"
-    },
-    {
-        "id": "600506a1-1155-0a74-8c52-7d8066f362a0",
-        "type": "Kind krank"
-    },
-    {
-        "id": "5d736f92-e8d7-0c5d-bc55-67d3e4d21940",
-        "type": "Krankheit"
-    },
-    {
-        "id": "52a56282-8c48-0431-915f-4e22ffb29512",
-        "type": "Krankheit"
-    },
-    {
-        "id": "959122fc-57fe-0e9c-b253-21bae3c30f78",
-        "type": "Krankheit"
-    },
-    {
-        "id": "dee09ee8-c75f-0631-9d57-6704b673247d",
-        "type": "Krankheit"
-    },
-    {
-        "id": "b116c559-3921-0e7b-885d-a1fef61337de",
-        "type": "Krankheit"
-    },
-    {
-        "id": "ee317928-0093-0f13-aa53-8d95701347e9",
-        "type": "Krankheit"
-    },
-    {
-        "id": "9cae5800-d82e-086e-965a-1cdb40c35461",
-        "type": "Krankheit"
-    },
-    {
-        "id": "6064cc39-3a00-0a56-b251-b786cf53629e",
-        "type": "Krankheit"
-    },
-    {
-        "id": "cbdf541b-daea-0d56-975f-f40600131c9c",
-        "type": "Kurzarbeit"
-    },
-    {
-        "id": "25487045-8b29-00cd-af56-d76624632480",
-        "type": "Kurzarbeit"
-    },
-    {
-        "id": "f88aa348-fb38-0700-9951-ed7afdc3596c",
-        "type": "Mutterschutz"
-    },
-    {
-        "id": "01a9cbbe-f700-0191-af58-5c9cdd13637c",
-        "type": "Mutterschutz"
-    },
-    {
-        "id": "9d5ba8b5-599a-0122-a555-3160c4921ced",
-        "type": "Resturlaub"
-    },
-    {
-        "id": "2eaf8e2c-df1d-0ae5-a351-2206a2230f7f",
-        "type": "Resturlaub"
-    },
-    {
-        "id": "704b3b7f-ef12-0dbb-9651-a9eb55f3247f",
-        "type": "Resturlaub"
-    },
-    {
-        "id": "32c2ab3f-c18f-0f3d-a558-ac54c4d337dd",
-        "type": "Resturlaub"
-    },
-    {
-        "id": "2c3760d5-2f08-029e-8153-349afc834794",
-        "type": "Resturlaub"
-    },
-    {
-        "id": "44593c79-42fc-0da9-bf56-413e0ad355ee",
-        "type": "Resturlaub"
-    },
-    {
-        "id": "06ec8968-97d1-0291-8251-271d56e3637a",
-        "type": "Resturlaub 2024"
-    },
-    {
-        "id": "541f6e1f-5a91-0820-8b58-d11b350291f5",
-        "type": "Sonderurlaub"
-    },
-    {
-        "id": "0322d7f6-e096-06ab-b859-b303b2829232",
-        "type": "Sonderurlaub"
-    },
-    {
-        "id": "e05e5158-8dc9-0c60-a254-36aa7e135cb4",
-        "type": "Sonderurlaub"
-    },
-    {
-        "id": "d946e8e7-4241-0384-be52-84374bb35b67",
-        "type": "unbezahlter Urlaub"
-    },
-    {
-        "id": "fbeadf67-7b6f-02db-9950-9f039b021941",
-        "type": "Urlaub"
-    },
-    {
-        "id": "02e59c1d-7d8c-0288-a851-eadd0f421cf4",
-        "type": "Urlaub"
-    },
-    {
-        "id": "53021d54-e616-0429-ad5b-8ec7e0d2f2f3",
-        "type": "Urlaub"
-    },
-    {
-        "id": "ef956ceb-8bd1-0f5a-a65f-8c726ab31f82",
-        "type": "Urlaub"
-    },
-    {
-        "id": "63f59db8-2f31-0abe-925a-f45af1c332b4",
-        "type": "Urlaub"
-    },
-    {
-        "id": "7b55ab30-2184-01f6-9857-839111734200",
-        "type": "Urlaub"
-    },
-    {
-        "id": "931c7cd3-5a08-0422-8352-330da223505c",
-        "type": "Urlaub"
-    },
-    {
-        "id": "9ec799c0-2765-0afb-845b-cde787c35da6",
-        "type": "Urlaub"
-    },
-    {
-        "id": "7f53d754-5a8d-0069-8a53-d3c7bb1331aa",
-        "type": "Urlaubsdoku_Studis"
-    },
-    {
-        "id": "d5cee216-ad84-0480-9d57-a747f63355ef",
-        "type": "Urlaubsdoku_Studis"
-    },
-    {
-        "id": "9355651c-56cb-0757-905c-05de5c2332b6",
-        "type": "Urlaubsdokus_Studis"
-    },
-    {
-        "id": "984ea870-86fb-05a1-ab52-51ee07c34201",
-        "type": "Urlaubsdokus_Studis"
-    },
-    {
-        "id": "a81b5d91-1493-06d8-ba5d-27c585335da0",
-        "type": "Workation"
-    }
+  {
+    "id": "b4a4c4de-2d59-0c04-ab5f-5b720b914c2f",
+    "type": ""
+  },
+  {
+    "id": "1357e2cc-bf79-08d0-8853-ff498812ffd0",
+    "type": "Überstunden"
+  },
+  {
+    "id": "3dedf693-e3b1-03c2-b756-305435121b96",
+    "type": "Berufsschule/FH/Uni"
+  },
+  {
+    "id": "cfcc0306-f510-053f-bb50-bf3edfc225da",
+    "type": "Berufsschule/FH/Uni"
+  },
+  {
+    "id": "f857d4ec-e170-0108-b55b-1992ada3162d",
+    "type": "Berufsschule/FH/Uni"
+  },
+  {
+    "id": "16ff1d85-4228-0593-a45b-e30013c3245c",
+    "type": "Berufsschule/FH/Uni"
+  },
+  {
+    "id": "bbb15091-7b30-0e1e-a05a-0063bbb3379d",
+    "type": "Berufsschule/FH/Uni"
+  },
+  {
+    "id": "e368ee67-ad50-0618-a150-0f518313489d",
+    "type": "Berufsschule/FH/Uni"
+  },
+  {
+    "id": "5b0c6c18-d28b-0c6c-b35e-80024d1355f2",
+    "type": "Berufsschule/FH/Uni"
+  },
+  {
+    "id": "14f2aaca-d1c3-05b0-b559-dd81cf3363c7",
+    "type": "Berufsschule/FH/Uni"
+  },
+  {
+    "id": "eaec65a2-ea29-0459-b75f-a4b08c033dc9",
+    "type": "Elternzeit"
+  },
+  {
+    "id": "86165c1a-3a83-0f09-bb5f-0b34ff6355f4",
+    "type": "Elternzeit"
+  },
+  {
+    "id": "b2b6a78f-d5c1-0bce-865d-ac23f36362a2",
+    "type": "Elternzeit"
+  },
+  {
+    "id": "1843cddf-683c-0467-8853-bdce5b93637d",
+    "type": "Elternzeit"
+  },
+  {
+    "id": "b37d9cd3-7e0f-0956-815d-b0598dd369b2",
+    "type": "Elternzeit"
+  },
+  {
+    "id": "97582cf4-e4fe-0732-905d-cb88dd335f4a",
+    "type": "Freier Tag"
+  },
+  {
+    "id": "0dfa9172-a844-0304-9955-60f1e48362a5",
+    "type": "Freier Tag"
+  },
+  {
+    "id": "7d815c4e-c0f5-0dca-8f5e-a49888433a87",
+    "type": "Gleitzeit"
+  },
+  {
+    "id": "4068ff51-c35d-03ad-b353-dd43dfe343ae",
+    "type": "Gleitzeit"
+  },
+  {
+    "id": "fe81eff6-dfe5-03f0-8f55-ab275a535603",
+    "type": "Gleitzeit"
+  },
+  {
+    "id": "0f2d8d93-a81f-02f5-9f5f-ddd863d362a1",
+    "type": "Gleitzeit"
+  },
+  {
+    "id": "904b1313-8860-0696-9551-5bda396363f8",
+    "type": "Gleitzeit"
+  },
+  {
+    "id": "bf73e71a-1fd4-09a8-a55c-b7395b03489b",
+    "type": "Home Office"
+  },
+  {
+    "id": "b3b97212-af72-0165-9851-07a016221f33",
+    "type": "Homeoffice"
+  },
+  {
+    "id": "dc4b0ea9-f243-0ad1-bb5b-5049a9d225db",
+    "type": "Homeoffice"
+  },
+  {
+    "id": "b6415171-df02-0660-ba5f-951f2a130f79",
+    "type": "Homeoffice"
+  },
+  {
+    "id": "5b0c9041-c530-0c3b-8956-a70280b3247e",
+    "type": "Homeoffice"
+  },
+  {
+    "id": "8af924cc-2b1f-05dc-a85e-e235fd0334a0",
+    "type": "Homeoffice"
+  },
+  {
+    "id": "814c3873-97f8-07b3-855a-13841ff355f0",
+    "type": "Homeoffice"
+  },
+  {
+    "id": "89029b22-a488-0b5a-8552-cb72eff3629f",
+    "type": "Homeoffice"
+  },
+  {
+    "id": "ed462b3b-8552-0ca5-9e5e-e894ec834649",
+    "type": "Kind krank"
+  },
+  {
+    "id": "673f7b54-0f31-01dd-a655-8a683573489c",
+    "type": "Kind krank"
+  },
+  {
+    "id": "43853e6c-cd7c-0982-805d-86c2060355f1",
+    "type": "Kind krank"
+  },
+  {
+    "id": "600506a1-1155-0a74-8c52-7d8066f362a0",
+    "type": "Kind krank"
+  },
+  {
+    "id": "5d736f92-e8d7-0c5d-bc55-67d3e4d21940",
+    "type": "Krankheit"
+  },
+  {
+    "id": "52a56282-8c48-0431-915f-4e22ffb29512",
+    "type": "Krankheit"
+  },
+  {
+    "id": "959122fc-57fe-0e9c-b253-21bae3c30f78",
+    "type": "Krankheit"
+  },
+  {
+    "id": "dee09ee8-c75f-0631-9d57-6704b673247d",
+    "type": "Krankheit"
+  },
+  {
+    "id": "b116c559-3921-0e7b-885d-a1fef61337de",
+    "type": "Krankheit"
+  },
+  {
+    "id": "ee317928-0093-0f13-aa53-8d95701347e9",
+    "type": "Krankheit"
+  },
+  {
+    "id": "9cae5800-d82e-086e-965a-1cdb40c35461",
+    "type": "Krankheit"
+  },
+  {
+    "id": "6064cc39-3a00-0a56-b251-b786cf53629e",
+    "type": "Krankheit"
+  },
+  {
+    "id": "cbdf541b-daea-0d56-975f-f40600131c9c",
+    "type": "Kurzarbeit"
+  },
+  {
+    "id": "25487045-8b29-00cd-af56-d76624632480",
+    "type": "Kurzarbeit"
+  },
+  {
+    "id": "f88aa348-fb38-0700-9951-ed7afdc3596c",
+    "type": "Mutterschutz"
+  },
+  {
+    "id": "01a9cbbe-f700-0191-af58-5c9cdd13637c",
+    "type": "Mutterschutz"
+  },
+  {
+    "id": "9d5ba8b5-599a-0122-a555-3160c4921ced",
+    "type": "Resturlaub"
+  },
+  {
+    "id": "2eaf8e2c-df1d-0ae5-a351-2206a2230f7f",
+    "type": "Resturlaub"
+  },
+  {
+    "id": "704b3b7f-ef12-0dbb-9651-a9eb55f3247f",
+    "type": "Resturlaub"
+  },
+  {
+    "id": "32c2ab3f-c18f-0f3d-a558-ac54c4d337dd",
+    "type": "Resturlaub"
+  },
+  {
+    "id": "2c3760d5-2f08-029e-8153-349afc834794",
+    "type": "Resturlaub"
+  },
+  {
+    "id": "44593c79-42fc-0da9-bf56-413e0ad355ee",
+    "type": "Resturlaub"
+  },
+  {
+    "id": "06ec8968-97d1-0291-8251-271d56e3637a",
+    "type": "Resturlaub 2024"
+  },
+  {
+    "id": "541f6e1f-5a91-0820-8b58-d11b350291f5",
+    "type": "Sonderurlaub"
+  },
+  {
+    "id": "0322d7f6-e096-06ab-b859-b303b2829232",
+    "type": "Sonderurlaub"
+  },
+  {
+    "id": "e05e5158-8dc9-0c60-a254-36aa7e135cb4",
+    "type": "Sonderurlaub"
+  },
+  {
+    "id": "2849787a-bbde-0575-a059-c865dda36822",
+    "type": "Sonderurlaub"
+  },
+  {
+    "id": "d946e8e7-4241-0384-be52-84374bb35b67",
+    "type": "unbezahlter Urlaub"
+  },
+  {
+    "id": "fbeadf67-7b6f-02db-9950-9f039b021941",
+    "type": "Urlaub"
+  },
+  {
+    "id": "02e59c1d-7d8c-0288-a851-eadd0f421cf4",
+    "type": "Urlaub"
+  },
+  {
+    "id": "53021d54-e616-0429-ad5b-8ec7e0d2f2f3",
+    "type": "Urlaub"
+  },
+  {
+    "id": "ef956ceb-8bd1-0f5a-a65f-8c726ab31f82",
+    "type": "Urlaub"
+  },
+  {
+    "id": "63f59db8-2f31-0abe-925a-f45af1c332b4",
+    "type": "Urlaub"
+  },
+  {
+    "id": "7b55ab30-2184-01f6-9857-839111734200",
+    "type": "Urlaub"
+  },
+  {
+    "id": "931c7cd3-5a08-0422-8352-330da223505c",
+    "type": "Urlaub"
+  },
+  {
+    "id": "9ec799c0-2765-0afb-845b-cde787c35da6",
+    "type": "Urlaub"
+  },
+  {
+    "id": "3efd9d9f-17a2-0280-a254-038ce0a3665f",
+    "type": "Urlaub"
+  },
+  {
+    "id": "7f53d754-5a8d-0069-8a53-d3c7bb1331aa",
+    "type": "Urlaubsdoku_Studis"
+  },
+  {
+    "id": "d5cee216-ad84-0480-9d57-a747f63355ef",
+    "type": "Urlaubsdoku_Studis"
+  },
+  {
+    "id": "9355651c-56cb-0757-905c-05de5c2332b6",
+    "type": "Urlaubsdokus_Studis"
+  },
+  {
+    "id": "984ea870-86fb-05a1-ab52-51ee07c34201",
+    "type": "Urlaubsdokus_Studis"
+  },
+  {
+    "id": "a81b5d91-1493-06d8-ba5d-27c585335da0",
+    "type": "Workation"
+  }
 ]

@@ -19,6 +19,7 @@
             <a href=".">
                 <h3>Teamleader Softwaretools</h3>
             </a>
+            <span id="creator">Created by DST</span>
         </div>
         <div class="right-container">
             <button type="button" class="error-button" onclick="toggleBubble()">
@@ -78,7 +79,6 @@
             {% endif %}
             {% if illness %}
             <div class="box">
-                <!--<div class="ribbon"><span>Neu</span></div>-->
                 <a href="illness.html">
                     <img src="{{ url_for('static', filename='assets/illness.png') }}" alt="Absence Icon">
                     Krankheitsstunden einsehen
@@ -93,15 +93,16 @@
                 </a>
             </div>
             {% endif %}
-            {% if projects %}
+            {% if vacations %}
             <div class="box">
-                <a href="projects.html">
-                    <img src="{{ url_for('static', filename='assets/project.png') }}" alt="Project Icon">
-                    Projektübersicht
+                <div class="ribbon"><span>Neu</span></div>
+                <a href="vacations.html">
+                    <img src="{{ url_for('static', filename='assets/vacations.png') }}" alt="Project Icon">
+                    Urlaubsübersicht
                 </a>
             </div>
             {% endif %}
-            {% if username == "David Steinmetz" or username == "Leonie Gebhardt" or username == "Maria Gebhardt" %}
+            {% if emergency %}
             <div class="box">
                 <a href="emergency.html">
                     <img src="{{ url_for('static', filename='assets/exit.png') }}" alt="Emergency Icon">

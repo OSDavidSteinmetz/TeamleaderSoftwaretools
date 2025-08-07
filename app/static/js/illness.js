@@ -43,6 +43,7 @@ function checkAbsenceForDate() {
         },
         body: JSON.stringify({
             date: dateInput.value,
+            year: false
         })
     })
     .then(response => {
@@ -67,6 +68,73 @@ function checkAbsenceForDate() {
         // Optional: Ladeanimation beenden, falls benötigt
         loader.className = "loaded";
         confirmButton.disabled = false;
+
+        // Überprüfen, ob membersTableBody Kinder-Elemente hat
+        if (membersTableBody.children.length > 0) {
+            downloadButton.disabled = false;
+        } else {
+            downloadButton.disabled = true;
+            errorMessage.classList.remove('hidden');
+        }
+    })
+    .catch(error => {
+        loader.className = "loaded";
+        console.error('Error:', error);
+    });
+}
+
+function checkAbsenceForYear () {
+    const loader = document.getElementById('loader');
+    const table = document.getElementById('membersTable');
+    const confirmButton = document.getElementById('confirmbutton');
+    const yearButton = document.getElementById('yearbutton');
+    const dateInput = document.getElementById("date");
+    const downloadButton = document.getElementById("download-button");
+    const errorMessage = document.getElementById("error-message");
+
+    loader.className = "loading";
+    table.className = 'hidden';
+    confirmButton.disabled = true;
+    yearbutton.disabled = true;
+    downloadButton.disabled = true;
+
+    if (errorMessage) {
+        errorMessage.className = 'hidden';
+    }
+
+    fetch('/illness.html', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            date: dateInput.value,
+            year: true
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text();
+    })
+    .then(data => {
+        // DOMParser zum Parsen des zurückgegebenen HTML-Strings verwenden
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(data, 'text/html');
+
+        // Den neuen Inhalt für den "box-content"-Bereich aus dem zurückgegebenen HTML holen
+        const newBoxContent = doc.getElementById('box-content').innerHTML;
+
+        // Nur den alten "box-content" mit dem neuen Inhalt ersetzen
+        document.getElementById('box-content').innerHTML = newBoxContent;
+
+        const membersTableBody = document.getElementById("membersTableBody");
+
+        // Optional: Ladeanimation beenden, falls benötigt
+        loader.className = "loaded";
+        confirmButton.disabled = false;
+        yearbutton.disabled = false;
 
         // Überprüfen, ob membersTableBody Kinder-Elemente hat
         if (membersTableBody.children.length > 0) {

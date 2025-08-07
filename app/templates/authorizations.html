@@ -80,6 +80,7 @@
                     <th class="employee-col">Mitarbeiter</th>
                     <th class="role-col">Rolle</th>
                     <th class="workday-col">Wochenstunden</th>
+                    <th class="holiday-col">Urlaubstage</th>
                     <th class="icon-column"><img src="{{ url_for('static', filename='assets/upload.png') }}" alt="Timer Icon" width="32"
                              height="32">
                     </th>
@@ -95,7 +96,10 @@
                     <th class="icon-column"><img src="{{ url_for('static', filename='assets/birthday.png') }}" alt="Timer Icon" width="32"
                              height="32">
                     </th>
-                    <th class="icon-column"><img src="{{ url_for('static', filename='assets/project.png') }}" alt="Projects Icon" width="32"
+                    <th class="icon-column"><img src="{{ url_for('static', filename='assets/vacations.png') }}" alt="Vacations Icon" width="32"
+                             height="32">
+                    </th>
+                    <th class="icon-column"><img src="{{ url_for('static', filename='assets/exit.png') }}" alt="Emergency Icon" width="32"
                              height="32">
                     </th>
                     <th class="icon-column"><img src="{{ url_for('static', filename='assets/easy-access.png') }}" alt="Timer Icon" width="32"
@@ -109,12 +113,14 @@
                     <td class="employee-col">{{ user.employee }}</td>
                     <td class="role-col">{{ user.role }}</td>
                     <td class="workday-col"><input type="number" data-employee="{{ user.employee }}" data-permission="working_hours" value="{{ user.working_hours }}" min="0" onchange="changeAuthorizations()"></td>
+                    <td class="workday-col"><input type="number" data-employee="{{ user.employee }}" data-permission="holidays" value="{{ user.holidays }}" min="0" onchange="changeAuthorizations()"></td>
                     <td class="icon-column"><input type="checkbox" data-employee="{{ user.employee }}" data-permission="upload_times" {% if user.upload_times %}checked{% endif %} onchange="changeAuthorizations()"></td>
                     <td class="icon-column"><input type="checkbox" data-employee="{{ user.employee }}" data-permission="manage_times" {% if user.manage_times %}checked{% endif %} onchange="changeAuthorizations()"></td>
                     <td class="icon-column"><input type="checkbox" data-employee="{{ user.employee }}" data-permission="absence" {% if user.absence %}checked{% endif %} onchange="changeAuthorizations()"></td>
                     <td class="icon-column"><input type="checkbox" data-employee="{{ user.employee }}" data-permission="illness" {% if user.illness %}checked{% endif %} onchange="changeAuthorizations()"></td>
                     <td class="icon-column"><input type="checkbox" data-employee="{{ user.employee }}" data-permission="birthday" {% if user.birthday %}checked{% endif %} onchange="changeAuthorizations()"></td>
-                    <td class="icon-column"><input type="checkbox" data-employee="{{ user.employee }}" data-permission="projects" {% if user.projects %}checked{% endif %} onchange="changeAuthorizations()"></td>
+                    <td class="icon-column"><input type="checkbox" data-employee="{{ user.employee }}" data-permission="vacations" {% if user.vacations %}checked{% endif %} onchange="changeAuthorizations()"></td>
+                    <td class="icon-column"><input type="checkbox" data-employee="{{ user.employee }}" data-permission="emergency" {% if user.emergency %}checked{% endif %} onchange="changeAuthorizations()"></td>
                     <td class="icon-column"><input type="checkbox" data-employee="{{ user.employee }}" data-permission="authorizations" {% if user.authorizations %}checked{% endif %} onchange="changeAuthorizations()"></td>
                 </tr>
                 {% endfor %}
